@@ -1,9 +1,11 @@
 <?php
-namespace frontend\models;
+namespace frontend\models\forms;
 
 use common\models\User;
 use yii\base\Model;
 use Yii;
+
+use himiklab\yii2\recaptcha\ReCaptchaValidator;
 
 /**
  * Signup form
@@ -13,7 +15,9 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-
+    public $confirmation;
+    public $accept;
+    public $reCaptcha;
     /**
      * @inheritdoc
      */
@@ -32,7 +36,14 @@ class SignupForm extends Model
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
 
             ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'string', 'length' => [6,25]],
+
+            ['confirmation', 'compare', 'compareAttribute' => 'password', 'message'=>"Confirmation don't match"],
+
+            ['accept', 'required', 'requiredValue' => 1, 'message' => 'You must agree to the terms and conditions'],
+
+            ['reCaptcha', 'required'],
+            [['reCaptcha'],ReCaptchaValidator::className()],
         ];
     }
 
