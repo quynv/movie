@@ -62,7 +62,7 @@ a:focus {
 }
 a:hover {
    color: #72c02c;
-   text-decoration: underline;
+   text-decoration: none;
 }
 
 /*Intro Page
