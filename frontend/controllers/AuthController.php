@@ -14,8 +14,11 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 use frontend\controllers\base\BaseController;
-use frontend\models\forms\SignupForm;
-use common\models\LoginForm;
+use frontend\models\forms\auth\SignupForm;
+use frontend\models\forms\auth\LoginForm;
+use frontend\models\forms\auth\ActiveForm;
+use frontend\controllers\utilities\Email;
+use frontend\models\User;
 
 class AuthController extends BaseController
 {
@@ -94,8 +97,19 @@ class AuthController extends BaseController
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+                $connection = \Yii::$app->db;
+                $transaction = $connection->beginTransaction();
+                if($user->save(false)) {
+                    try{
+                        if(Email::signup($user)){
+                            $transaction->commit();
+                            return $this->render('signup-success');
+                        }
+
+                    }catch (\Exception $e) {
+                        $transaction->rollBack();
+                        Yii::$app->session->setFlash('danger','We couldn\'t send mail to your address.<br> Please confirm your email address before sign up again!');
+                    }
                 }
             }
         }
@@ -103,5 +117,20 @@ class AuthController extends BaseController
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    public function actionActive_account($token) {
+        $user = User::findOne(['access_token' => $token]);
+        if($user) {
+            $user->status = User::STATUS_ACTIVE;
+            $user->save(false);
+            return $this->render('active-success');
+        } else {
+            $model = new ActiveForm();
+            if($model->load(Yii::$app->request->post())) {
+                $model->resend();
+            }
+            return $this->render('active-fail', ['model' => $model]);
+        }
     }
 }

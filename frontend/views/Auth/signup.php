@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\SignupForm */
+/* @var $model \frontend\models\forms\auth\SignupForm */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <h2>Sign Up</h2>
         <p>Already Signed Up? Click <a class="color-teal" href="<?= Url::toRoute('auth/login')?>">Sign In</a> to login your account.</p>
     </div>
+    <?= $this->render('//layouts/alert',[])?>
     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
     <?= $form->field($model, 'username', [
         'template' => '
