@@ -8,8 +8,8 @@ return [
         'reCaptcha' => [
             'name' => 'reCaptcha',
             'class' => 'himiklab\yii2\recaptcha\ReCaptcha',
-            'siteKey' => '6Lc8UwATAAAAANRvxCTTKhvAFhsByFfz7U_O3hNa',
-            'secret' => '6Lc8UwATAAAAAKcrbywzpF_FShReAkW9RmGmTiqj',
+            'siteKey' => '6Ldr7hYTAAAAAGXXxhFy-kdbK2qNDx_2iu7A88Qo',
+            'secret' => '6Ldr7hYTAAAAAP21WeuVWn-ewHYGkwJYmlcaCn1o',
         ],
     ],
 ];
