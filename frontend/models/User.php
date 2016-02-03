@@ -210,4 +210,9 @@ class User extends ActiveRecord implements IdentityInterface
         $this->access_token = Yii::$app->security->generateRandomString();
         $this->expire_date = time();
     }
+
+    public function getProvider()
+    {
+        return $this->hasOne(Provider::className(), ['id' => 'user_id']);
+    }
 }

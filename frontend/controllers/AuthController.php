@@ -8,6 +8,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Provider;
 use Yii;
 
 use yii\filters\VerbFilter;
@@ -49,11 +50,23 @@ class AuthController extends BaseController
             ],
         ];
     }
+
     public function beforeAction($event)
     {
         $this->layout = "@app/views/layouts/blank";
         return parent::beforeAction($event);
     }
+
+    public function actions()
+    {
+        return [
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'OAuthCallback'],
+            ],
+        ];
+    }
+
     /**
      * Logs in a user.
      *
@@ -119,7 +132,8 @@ class AuthController extends BaseController
         ]);
     }
 
-    public function actionActive_account($token) {
+    public function actionActive_account($token)
+    {
         $user = User::findOne(['access_token' => $token]);
         if($user) {
             $user->status = User::STATUS_ACTIVE;
@@ -131,6 +145,72 @@ class AuthController extends BaseController
                 $model->resend();
             }
             return $this->render('active-fail', ['model' => $model]);
+        }
+    }
+
+    public function OAuthCallback($client)
+    {
+        $attributes = $client->getUserAttributes();
+        $provider = Provider::find()->where([
+            'provider' => $client->getId(),
+            'provider_id' => $attributes['id']
+        ])->one();
+        if(Yii::$app->user->isGuest) {
+            if ($provider) { // login
+                $user = $provider->user;
+                if(Yii::$app->user->login($user)) {
+                    return $this->goBack();
+                }
+            } else {
+                $user = User::find()->where(['email' => $attributes['email']])->one();
+                if ($user) {
+                    $provider = new Provider([
+                        'user_id' => $user->id,
+                        'provider' => $client->getId(),
+                        'provider_id' => (string)$attributes['id'],
+                    ]);
+                    $provider->save(false);
+                    if(Yii::$app->user->login($user)) {
+                        return $this->goBack();
+                    }
+                } else {
+                    $password = Yii::$app->security->generateRandomString(6);
+                    $user = new User([
+                        'username' => $attributes['login'],
+                        'email' => $attributes['email'],
+                        'password' => $password,
+                    ]);
+                    $user->generateAuthKey();
+                    $transaction = $user->getDb()->beginTransaction();
+                    if ($user->save(false)) {
+                        $provider = new Provider([
+                            'user_id' => $user->id,
+                            'provider' => $client->getId(),
+                            'provider_id' => (string)$attributes['id'],
+                        ]);
+                        if ($provider->save(false)) {
+                            $transaction->commit();
+                            if(Yii::$app->user->login($user)) {
+                                return $this->goHome();
+                            }
+                        } else {
+                            print_r($provider->getErrors());
+                        }
+                    } else {
+                        print_r($user->getErrors());
+                    }
+                }
+            }
+        } else {
+            if(!$provider) {
+                $provider = new Provider([
+                    'provider' => $client->getId(),
+                    'provider_id' => $attributes['id'],
+                    'user_id' => Yii::$app->user->id
+                ]);
+                $provider->save(false);
+                return $this->goBack();
+            }
         }
     }
 }
