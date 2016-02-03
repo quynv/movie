@@ -15,6 +15,7 @@ return [
         'user' => [
             'identityClass' => 'frontend\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['auth/login']
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

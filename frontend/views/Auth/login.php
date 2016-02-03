@@ -7,6 +7,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
+use yii\authclient\widgets\AuthChoice;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
@@ -53,5 +54,13 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <?php ActiveForm::end(); ?>
+    <hr>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>">
+                <?= Html::img('@web/img/btn/fb_btn.png',['width' => '278', 'height' => '54'])?>
+            </a>
+        </div>
+    </div>
 </div>
 <!--End Reg Block-->
