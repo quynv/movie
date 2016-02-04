@@ -9,14 +9,14 @@ use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use himiklab\yii2\recaptcha\ReCaptcha;
 
-$this->title = 'Signup';
+$this->title = Yii::t('frontend/views.signup','Sign up');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <!--Reg Block-->
 <div class="reg-block">
     <div class="reg-block-header">
-        <h2>Sign Up</h2>
-        <p>Already Signed Up? Click <a class="color-teal" href="<?= Url::toRoute('auth/login')?>">Sign In</a> to login your account.</p>
+        <h2><?= Yii::t('frontend/views.signup','Sign up')?></h2>
+        <p><?= Yii::t('frontend/views.signup','Already Signed Up? Click {link} to login your account.',['link' => Html::a(Yii::t('frontend/views.signup','Sign In'), Url::toRoute('auth/login'), ['class' => 'color-teal'])])?></p>
     </div>
     <?= $this->render('//layouts/alert',[])?>
     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <strong class="text-danger">{error}</strong>
         ',
-    ])->textInput(['placeholder' => 'Username']); ?>
+    ])->textInput(['placeholder' => Yii::t('frontend/views.signup','Username')]); ?>
     <?= $form->field($model, 'email', [
         'template' => '
             <div class="input-group margin-bottom-20">
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <strong class="text-danger">{error}</strong>
         '
-    ])->passwordInput(['placeholder' => 'Password']); ?>
+    ])->passwordInput(['placeholder' => Yii::t('frontend/views.signup','Password')]); ?>
     <?= $form->field($model, 'confirmation', [
         'template' => '
             <div class="input-group margin-bottom-20">
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <strong class="text-danger">{error}</strong>
         '
-    ])->passwordInput(['placeholder' => 'Confirmation']); ?>
+    ])->passwordInput(['placeholder' => Yii::t('frontend/views.signup','Confirmation')]); ?>
     <hr>
     <?= $form->field($model, 'reCaptcha',[
         'template' =>'
@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="checkbox">
                 <label>
                     {input}
-                    I read <a target="_blank" href="page_terms.html">Terms and Conditions</a>
+                    '.Yii::t('frontend/views.signup','I read {link}.', ['link' => Html::a(Yii::t('frontend/views.signup','Terms and Conditions'), Url::toRoute('#'), ['target' => '_blank'])]).'
                 </label>
             </div>
             <strong class="text-danger">{error}</strong>
@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ])->checkbox(); ?>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <?= Html::submitButton('Register', ['class' => 'btn-u btn-block', 'name' => 'register-button']) ?>
+            <?= Html::submitButton(Yii::t('frontend/views.signup','Register'), ['class' => 'btn-u btn-block', 'name' => 'register-button']) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>

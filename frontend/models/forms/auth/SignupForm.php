@@ -39,9 +39,9 @@ class SignupForm extends Model
             ['password', 'string', 'length' => [6,25]],
 
             ['confirmation', 'required'],
-            ['confirmation', 'compare', 'compareAttribute' => 'password', 'message'=>"Confirmation don't match"],
+            ['confirmation', 'compare', 'compareAttribute' => 'password', 'message'=>Yii::t('frontend/form.signup',"Confirmation don't match.")],
 
-            ['accept', 'required', 'requiredValue' => 1, 'message' => 'You must agree to the terms and conditions'],
+            ['accept', 'required', 'requiredValue' => 1, 'message' => Yii::t('frontend/form.signup','You must agree to the terms and conditions.')],
 
             ['reCaptcha', 'required'],
             [['reCaptcha'],ReCaptchaValidator::className()],

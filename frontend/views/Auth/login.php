@@ -7,17 +7,16 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
-use yii\authclient\widgets\AuthChoice;
 
-$this->title = 'Login';
+$this->title = Yii::t('frontend/views.login','Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <!--Reg Block-->
 <div class="reg-block">
     <div class="reg-block-header">
-        <h2>Sign In</h2>
-        <p>Don't Have Account? Click <a class="color-green" href="<?= Url::toRoute('auth/signup')?>">Sign Up</a> to registration.</p>
+        <h2><?= Yii::t('frontend/views.login', 'Sign In')?></h2>
+        <p><?= Yii::t('frontend/views.login', 'Don\'t Have Account? Click {link} to registration.',['link' => Html::a(Yii::t('frontend/views.login','Sign up'), Url::toRoute('auth/signup'), ['class' => 'color-green'])])?></p>
     </div>
     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
     <?= $form->field($model, 'email',[
@@ -35,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             {input}
         </div>
         <strong class="text-danger">{error}</strong>'
-    ])->passwordInput(['placeholder' => 'Password']); ?>
+    ])->passwordInput(['placeholder' => Yii::t('frontend/views.login','Password')]); ?>
     <hr>
 
     <?= $form->field($model, 'rememberMe',[
@@ -43,14 +42,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="checkbox">
         <label>
             {input}
-            <p>Always stay signed in</p>
+            <p>'.Yii::t('frontend/views.login','Always stay signed in').'</p>
         </label>
         <strong class="text-danger">{error}</strong>
     </div>'
     ])->checkbox() ?>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <?= Html::submitButton('Login', ['class' => 'btn-u btn-block', 'name' => 'login-button']) ?>
+            <?= Html::submitButton(Yii::t('frontend/views.login','Login'), ['class' => 'btn-u btn-block', 'name' => 'login-button']) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>
