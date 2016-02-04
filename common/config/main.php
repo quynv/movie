@@ -20,7 +20,22 @@ return [
                     'clientSecret' => '0b9116da12d939744c22ceb9744d9c70',
                 ],
             ],
-        ]
+        ],
+        'i18n' => [
+            'translations' => [
+                'frontend*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/messages',
+                    'fileMap' => [
+                        'views.login' => 'views.login.php'
+                    ]
+                ],
+                'backend*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/messages',
+                ],
+            ],
+        ],
 
     ],
 ];
