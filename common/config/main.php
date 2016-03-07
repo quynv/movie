@@ -36,6 +36,10 @@ return [
                 ],
             ],
         ],
-
+        'tmdb' => [
+            'class' => 'common\components\TMDB',
+            'apiKey' => '2f74c8b0a2ae5d586eb56b4885c22cff',
+            'language' => 'en'
+        ],
     ],
 ];

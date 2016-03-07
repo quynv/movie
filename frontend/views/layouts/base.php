@@ -32,7 +32,7 @@ AppAsset::register($this);
 <div class="wrapper">
     <?= $this->render('header',[]);?>
     <?php //$this->render('slider',[]); ?>
-    <div class="container content-md">
+    <div class="container-fluid">
     <?= $content ?>
     </div>
     <?= $this->render('footer',[])?>
