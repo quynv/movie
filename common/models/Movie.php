@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use \yii\db\ActiveRecord;
-
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "movies".
  *
@@ -54,7 +54,7 @@ class Movie extends ActiveRecord
     public function afterFind()
     {
         parent::afterFind();
-//        $this->data = Yii::$app->tmdb->getMovie(str_replace(array("\r\n", "\r",","), "", $this->tmdb_id));
+        $this->data = Yii::$app->tmdb->getMovie(str_replace(array("\r\n", "\r",","), "", $this->tmdb_id));
     }
 
     public function setData($data)
@@ -199,8 +199,61 @@ class Movie extends ActiveRecord
         return $movies;
     }
 
-    public static function getRecommends()
+    public static function getUserBaseRecommends($user, $num)
     {
+        $others = Rating::find()->select('user_id')->distinct()->all();
+        $user_rated = ArrayHelper::map(Rating::find()->select(['movie_id', 'rating'])->where(['user_id' => $user->id])->asArray()->all(), 'movie_id', 'rating');
+        $totals = array();
+        $simSums = array();
+        foreach($others as $other)
+        {
+            if($user->id == $other->user_id) continue;
 
+            $other_rated = ArrayHelper::map(Rating::find()->select(['movie_id', 'rating'])->where(['user_id' => $other->user_id])->asArray()->all(), 'movie_id', 'rating');
+
+            $sim = Rating::similarity($user_rated, $other_rated);
+
+            if($sim <= 0) continue;
+            foreach($other_rated as $key => $value)
+            {
+                if(!isset($user_rated[$key]) || $user_rated[$key] == 0)
+                {
+                    if(isset($totals[$key]))
+                        $totals[$key] += $value * $sim;
+                    else $totals[$key] = $value * $sim;
+
+                    if(isset($simSums[$key]))
+                        $simSums[$key] += $sim;
+                    else $simSums[$key] = $sim;
+                }
+            }
+        }
+        $rankings = array();
+        foreach($totals as $item => $total)
+        {
+            $rankings[$item] = $total/$simSums[$item];
+        }
+
+        arsort($rankings);
+        $i = 0;
+        $recommend = array();
+        foreach($rankings  as $item)
+        {
+            if($i == $num) break;
+            $i++;
+            $recommend[] = Movie::findOne(['id' => $item]);
+        }
+        return $recommend;
+    }
+
+    public static function getItemBasedRecommends($movie, $num)
+    {
+        $others = Rating::find()->select('movie_id')->where([''])->distinct()->all();
+
+    }
+
+    public function getRatings()
+    {
+        return $this->hasMany(Rating::className(), ['movie_id' => 'id']);
     }
 }

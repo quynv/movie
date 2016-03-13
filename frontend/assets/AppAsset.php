@@ -27,13 +27,16 @@ class AppAsset extends AssetBundle
         'css/plugins/line-icons/line-icons.css',
         'css/plugins/font-awesome/css/font-awesome.css',
         'js/plugins/masterslider/style/masterslider.css',
-        'js/plugins/masterslider/skins/light-6/style.css'
+        'js/plugins/masterslider/skins/light-6/style.css',
+        'css/blog_masonry_3col.css'
     ];
     public $js = [
         'js/plugins/jquery/jquery-migrate.min.js',
         'js/plugins/back-to-top.js',
         'js/plugins/smoothScroll.js',
         'js/plugins/masterslider/masterslider.min.js',
+        'js/plugins/masonry/jquery.masonry.min.js',
+        'js/pages/blog-masonry.js',
         'js/custom.js',
         'js/app.js',
     ];
