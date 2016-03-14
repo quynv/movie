@@ -65,7 +65,7 @@ use yii\helpers\Url;
 
                         <li class="dropdown">
                             <a href="#">
-                                Actors
+                                Recommend
                             </a>
                         </li>
 

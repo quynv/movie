@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\Movie;
+use common\models\Rating;
+use frontend\models\User;
 use Yii;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -28,13 +30,20 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = "@app/views/layouts/base";
+
         $playings = Movie::getNowPlaying();
-        $movies = Movie::find()->limit(20)->orderBy('id DESC')->all();
-        $movies = Movie::setRequireData($movies);
+
+        $query = Movie::find()->orderBy('id DESC');
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $pages->setPageSize(20);
+        $movies = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
         return $this->render('index', [
             'playings' => $playings,
             'movies' => $movies,
-//            'pages' => $pages
+            'pages' => $pages
         ]);
     }
 

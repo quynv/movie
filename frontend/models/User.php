@@ -1,6 +1,7 @@
 <?php
 namespace frontend\models;
 
+use common\models\Rating;
 use Yii;
 use yii\base\NotSupportedException;
 use \yii\db\Expression;
@@ -214,5 +215,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getProvider()
     {
         return $this->hasOne(Provider::className(), ['id' => 'user_id']);
+    }
+
+    public function getRatings()
+    {
+        return $this->hasMany(Rating::className(), ['user_id' => 'id']);
     }
 }

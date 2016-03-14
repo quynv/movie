@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ])->checkbox(); ?>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <?= Html::submitButton(Yii::t('frontend/views.signup','Register'), ['class' => 'btn-u btn-block', 'name' => 'register-button']) ?>
+            <?= Html::submitButton(Yii::t('frontend/views.signup','Register'), ['class' => 'btn-u btn-block rounded', 'name' => 'register-button']) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>
@@ -84,7 +84,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>">
-                <?= Html::img('@web/img/btn/fb_register_btn.png',['width' => '278', 'height' => '54'])?>
+                <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>" class="btn btn-block btn-facebook-inversed rounded">
+                    <i class="fa fa-facebook"></i>
+                    Facebook
+                </a>
             </a>
         </div>
     </div>

@@ -49,15 +49,16 @@ $this->params['breadcrumbs'][] = $this->title;
     ])->checkbox() ?>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <?= Html::submitButton(Yii::t('frontend/views.login','Login'), ['class' => 'btn-u btn-block', 'name' => 'login-button']) ?>
+            <?= Html::submitButton(Yii::t('frontend/views.login','Login'), ['class' => 'btn-u btn-block rounded', 'name' => 'login-button']) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>
     <hr>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>">
-                <?= Html::img('@web/img/btn/fb_btn.png',['width' => '278', 'height' => '54'])?>
+            <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>" class="btn btn-block btn-facebook-inversed rounded">
+                <i class="fa fa-facebook"></i>
+                Facebook
             </a>
         </div>
     </div>

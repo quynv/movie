@@ -19,29 +19,29 @@ use yii\helpers\Url;
 
                 <h3 class="ms-layer ms-promo-info color-light"  style="left:10px; top:170px; color: #fff!important;"
                     data-effect="bottom(20)"
-                    data-duration="2300"
-                    data-delay="2300"
+                    data-duration="1300"
+                    data-delay="1300"
                     data-ease="easeOutExpo"
                     >Now playing</h3>
 
                 <h3 class="ms-layer ms-promo-info-in color-light"  style="left:10px; top:245px"
                     data-effect="left(100)"
-                    data-duration="3300"
-                    data-delay="1900"
+                    data-duration="2300"
+                    data-delay="900"
                     data-ease="easeOutExpo"
                     ><span class="color-green"><?= $movie->getTitle() ?></span></h3>
 
                 <h3 class="ms-layer normal-title color-light"  style="left:10px; top:312px; color: #fff!important;"
                     data-effect="bottom(20)"
-                    data-duration="2300"
-                    data-delay="2000"
+                    data-duration="1300"
+                    data-delay="1000"
                     data-ease="easeOutExpo"
                     >Release at <?= $movie->getReleaseDate()?></h3>
 
                 <a class="btn-u btn-brd btn-brd-width-2 btn-brd-hover btn-u-light rounded-4x ms-layer ms-promo-sub ms-promo-sub-in color-light"  style="left:10px; top:360px"
                    data-effect="right(40)"
-                   data-duration="2300"
-                   data-delay="2300"
+                   data-duration="1300"
+                   data-delay="1300"
                    data-ease="easeOutExpo"
                    href="#"
                     >View all</a>

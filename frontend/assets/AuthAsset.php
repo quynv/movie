@@ -25,6 +25,7 @@ class AuthAsset extends AssetBundle
         'css/plugins/font-awesome/css/font-awesome.css',
         'css/page_log_reg_v2.css',
         'css/teal.css',
+        'css/plugins/brand-buttons-inversed.min.css'
     ];
     public $js = [
         'js/plugins/jquery/jquery-migrate.min.js',
