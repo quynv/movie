@@ -287,11 +287,11 @@ class Movie extends ActiveRecord
         arsort($rankings);
         $i = 0;
         $recommend = array();
-        foreach($rankings  as $item)
+        foreach($rankings  as $key => $value)
         {
             if($i == $num) break;
             $i++;
-            $recommend[] = Movie::findOne(['id' => $item]);
+            $recommend[] = Movie::findOne(['id' => $key]);
         }
         return $recommend;
     }

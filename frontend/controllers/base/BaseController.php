@@ -7,9 +7,16 @@
  */
 namespace frontend\controllers\base;
 
+use common\models\Genre;
 use yii\web\Controller;
 
 class BaseController extends Controller
 {
     public $movie;
+    public $genres;
+
+    public function init()
+    {
+       $this->genres = Genre::find()->all();
+    }
 }

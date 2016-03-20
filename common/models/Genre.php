@@ -42,4 +42,10 @@ class Genre extends ActiveRecord
             'name' => Yii::t('app', 'Name'),
         ];
     }
+
+    public function getMovies()
+    {
+        return $this->hasMany(Movie::className(), ['id' => 'movie_id'])
+            ->viaTable('movies_genres', ['genre_id' => 'id']);
+    }
 }
