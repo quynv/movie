@@ -81,17 +81,29 @@ class Movie extends ActiveRecord
 
     public function getTrailers()
     {
-        return $this->data['trailers'];
+        return $this->data['trailers']['youtube'];
     }
 
-    public function getImages()
+    public function getImages($size)
     {
-        return $this->data['images']['posters'];
+        $images = array();
+        if(isset($this->data['images']['posters']))
+        {
+            foreach($this->data['images']['posters'] as $image)
+                $images[] = Yii::$app->tmdb->config['images']['base_url'].$size.$image['file_path'];
+        }
+        return $images;
     }
 
-    public function getBackdrops()
+    public function getBackdrops($size)
     {
-        return $this->data['images']['backdrops'];
+        $backdrops = array();
+        if(isset($this->data['images']['backdrops']))
+        {
+            foreach($this->data['images']['backdrops'] as $image)
+            $backdrops[] = Yii::$app->tmdb->config['images']['base_url'].$size.$image['file_path'];
+        }
+        return $backdrops;
     }
 
     public function getBackdrop($size)
@@ -131,12 +143,50 @@ class Movie extends ActiveRecord
 
     public function getCasts()
     {
-        return $this->data['casts']['cast'];
+        $casts = array();
+        if(isset($this->data['casts']['cast']))
+        {
+            foreach($this->data['casts']['cast'] as $user)
+                if($user['profile_path'])
+                {
+                    $casts[] = [
+                        'name' => $user['name'],
+                        'avatar' => Yii::$app->tmdb->config['images']['base_url'].'w185'.$user['profile_path']
+                    ];
+                }
+                else
+                {
+                    $casts[] = [
+                        'name' => $user['name'],
+                        'avatar' => null
+                    ];
+                }
+        }
+        return $casts;
     }
 
     public function getCrews()
     {
-        return $this->data['casts']['crew'];
+        $crews = array();
+        if(isset($this->data['casts']['crew']))
+        {
+            foreach($this->data['casts']['crew'] as $user)
+                if($user['profile_path'])
+                {
+                    $crews[] = [
+                        'name' => $user['name'],
+                        'avatar' => Yii::$app->tmdb->config['images']['base_url'].'w185'.$user['profile_path']
+                    ];
+                }
+                else
+                {
+                    $crews[] = [
+                        'name' => $user['name'],
+                        'avatar' => null
+                    ];
+                }
+        }
+        return $crews;
     }
 
     public static function getUpcomming($page = 1)
@@ -255,5 +305,11 @@ class Movie extends ActiveRecord
     public function getRatings()
     {
         return $this->hasMany(Rating::className(), ['movie_id' => 'id']);
+    }
+
+    public function getGenres()
+    {
+        return $this->hasMany(Genre::className(), ['id' => 'genre_id'])
+                    ->viaTable('movies_genres', ['movie_id' => 'id']);
     }
 }

@@ -16,7 +16,7 @@ $this->title = $exception->getMessage();
             <span class="sorry">Sorry, <?= $exception->getMessage() ?>!</span>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <a class="btn-u btn-brd btn-u-light" href="<?= Yii::$app->homeUrl?>"> Go Back to Main Page</a>
+                    <a class="btn-u btn-brd btn-u-light rounded" href="<?= Yii::$app->homeUrl?>"> Go Back to Main Page</a>
                 </div>
             </div>
         </div>

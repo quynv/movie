@@ -1,3 +1,6 @@
+<?php
+use kartik\social\FacebookPlugin;
+?>
 <!--=== Footer ===-->
 <div id="footer-v6" class="footer-v6">
     <div class="footer">
@@ -5,8 +8,8 @@
             <div class="row">
                 <!-- About Us -->
                 <div class="col-md-3 sm-margin-bottom-40">
-                    <div class="heading-footer"><h2>About Unify</h2></div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis blandit ut metus a commodo. Pellentesque congue tellus sed enim sollicitudin, id blandit mauris eleifend.</p>
+                    <div class="heading-footer"><h2>Facebook page</h2></div>
+                    <?= FacebookPlugin::widget(['type'=>FacebookPlugin::PAGE, 'settings' => ['href'=>'http://facebook.com/rmovie.dev']]);?>
                 </div>
                 <!-- End About Us -->
 
@@ -74,7 +77,7 @@
             <div class="row">
                 <div class="col-md-8 sm-margon-bottom-10">
                     <ul class="list-inline terms-menu">
-                        <li class="silver">Copyright © 2014 - All Rights Reserved</li>
+                        <li class="silver">Copyright ï¿½ 2014 - All Rights Reserved</li>
                         <li><a href="#">Terms of Use</a></li>
                         <li><a href="#">Privacy and Policy</a></li>
                         <li><a href="#">License</a></li>

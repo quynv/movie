@@ -20,13 +20,20 @@ AppAsset::register($this);
     <meta name="apple-mobile-web-app-capable" content="yes">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <?php if(isset($this->context->movie)) {?>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="<?= Yii::$app->urlManager->createAbsoluteUrl('/').$this->context->movie->id.'-'.urlencode($this->context->movie->getTitle())?>" />
+    <meta property="og:title" content="<?= $this->context->movie->getTitle()?>" />
+    <meta property="og:description" content="<?= $this->context->movie->getOverview()?>" />
+    <meta property="og:image" content="<?= $this->context->movie->getPoster('w342')?>" />
+    <?php } ?>
     <!-- Favicon -->
     <!-- <link rel="shortcut icon" href="favicon.ico">-->
     <!-- Web Fonts -->
     <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin'>
     <?php $this->head() ?>
 </head>
-<body class="header-fixed header-fixed-space dark">
+<body class="header-fixed header-fixed-space">
 <?php $this->beginBody() ?>
 <!-- wrapper -->
 <div class="wrapper">
