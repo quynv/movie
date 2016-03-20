@@ -1,5 +1,5 @@
 <div class="grid-boxes-in hover-shadow">
-    <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/').$movie->id?>">
+    <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/').$movie->id.'-'.urlencode($movie->getTitle())?>">
         <img class="img-responsive" src="<?= $movie->getPoster('w342');?>" alt="">
     </a>
     <div class="grid-boxes-caption">
