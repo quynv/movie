@@ -64,8 +64,8 @@ use yii\helpers\Url;
                         </li>
 
                         <li class="dropdown">
-                            <a href="#">
-                                Recommend
+                            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/recommended/')?>">
+                                Recommended
                             </a>
                         </li>
 
@@ -81,28 +81,9 @@ use yii\helpers\Url;
                                             <div class="row equal-height">
                                                 <div>
                                                     <ul class="list-unstyled">
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Comedy</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Action</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Animation</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Documentary</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Family</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Film-Noir</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Comedy</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Action</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Animation</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Documentary</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Family</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Film-Noir</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Comedy</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Action</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Animation</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Documentary</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Family</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Film-Noir</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Comedy</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Action</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Animation</a></li>
-                                                        <li class="col-md-3"><a href="#"><i class="fa fa-sort-alpha-asc"></i>Documentary</a></li>
+                                                        <?php foreach($this->context->genres as $genre) {?>
+                                                        <li class="col-md-3"><a href="/genres/<?= $genre->id.'-'.strtolower(urlencode($genre->name))?>"><i class="fa fa-bookmark-o"></i><?= $genre->name?></a></li>
+                                                        <?php } ?>
                                                     </ul>
                                                 </div>
                                             </div>
