@@ -35,16 +35,27 @@ AuthAsset::register($this);
     </div>
 <!-- end wrapper -->
 <?php $this->endBody() ?>
-<script type="text/javascript">
-    $.backstretch([
-        '<?= Url::to('@web/img/bg/1.jpg')?>',
-        '<?= Url::to('@web/img/bg/2.jpg')?>',
-        '<?= Url::to('@web/img/bg/3.jpg')?>'
-    ], {
-        fade: 1000,
-        duration: 7000
-    });
-</script>
+<?php if($this->context->movie) {?>
+    <?php if($this->context->movie->getBackdrops('w1280')) {?>
+        <?= $this->render('backstretch',['images' =>
+            $this->context->movie->getBackdrops('w1280')
+        ]);?>
+    <?php } else {?>
+        <?= $this->render('backstretch',['images' =>
+            [$this->context->movie->getBackdrop('w1280')]
+        ]);?>
+    <?php } ?>
+    <?= $this->render('//template/initcoming',[]); ?>
+<?php } else { ?>
+    <?= $this->render('backstretch',['images' =>
+        [
+            Url::to('@web/img/bg/1.jpg'),
+            Url::to('@web/img/bg/2.jpg'),
+            Url::to('@web/img/bg/3.jpg'),
+        ]
+    ]);?>
+<?php } ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

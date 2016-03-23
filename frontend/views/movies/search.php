@@ -28,7 +28,9 @@ $this->title = 'Movie | Search';
                         <?php }?>
                     </select>
                 </div>
-                <button type="submit" class="btn-u btn-u-green">Search</button>
+                <div class="form-group">
+                    <button type="submit" class="btn-u btn-u-green">Search</button>
+                </div>
             </form>
         </div>
     </div>
