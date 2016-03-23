@@ -18,5 +18,6 @@ class BaseController extends Controller
     public function init()
     {
        $this->genres = Genre::find()->all();
+       $this->layout = "@app/views/layouts/base";
     }
 }

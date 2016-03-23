@@ -45,9 +45,13 @@ class TMDB extends Component
         return self::get(self::_UPCOMING_, 'page='.$page);
     }
 
-    public function searchMovie($movieTitle)
+    public function searchMovie($movieTitle, $year=null, $page=1)
     {
-        return self::get(self::_SEARCH_, 'query='. urlencode($movieTitle));
+        $append_to_response = 'query='. urlencode($movieTitle).'&page='.$page;
+        if($year){
+            $append_to_response .= '&year='.$year;
+        }
+        return self::get(self::_SEARCH_, $append_to_response);
     }
 
     public function getMovie($movieId)
