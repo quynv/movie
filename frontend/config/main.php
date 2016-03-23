@@ -41,7 +41,8 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<id:\d+>-<slug:.+>' => 'movies/detail',
                 'recommended' => 'movies/recommended',
-                'genres/<id:\d+>-<slug:.+>' => 'genres/view'
+                'genres/<id:\d+>-<slug:.+>' => 'genres/view',
+                'search' => 'movies/search'
             ),
         ],
     ],

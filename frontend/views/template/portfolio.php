@@ -1,5 +1,4 @@
 <?php
-use yii\helpers\Html;
 
 $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/plugins/cubeportfolio/js/jquery.cubeportfolio.js',['depends' => [\frontend\assets\AppAsset::className()]]);
 $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/plugins/cube-portfolio-3-ns.js',['depends' => [\frontend\assets\AppAsset::className()]]);

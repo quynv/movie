@@ -200,13 +200,15 @@ class Movie extends ActiveRecord
         return $movies;
     }
 
-    public static function searchMovie($title)
+    public static function searchMovie($title, $year, $page)
     {
-        $results = Yii::$app->tmdb->searchMovie($title);
-        if($results){
-            return Movie::initWithData($results[0]);
+        $movies = array();
+        $results = Yii::$app->tmdb->searchMovie($title, $year, $page);
+        foreach($results['results'] as $result)
+        {
+            $movies[] = Movie::initWithData($result);
         }
-        return null;
+        return [$results['total_pages'],$movies];
     }
 
     public static function getVideos($movieId)

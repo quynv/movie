@@ -35,8 +35,8 @@ use yii\helpers\Url;
                         <li class="menu-icons">
                             <i class="menu-icons-style search search-close search-btn fa fa-search"></i>
                             <div class="search-open">
-                                <form action="" method="get">
-                                    <input type="text" class="animated fadeIn form-control" placeholder="Start searching ...">
+                                <form action="/search" method="get">
+                                    <input type="text" name="keyword" class="animated fadeIn form-control" placeholder="Enter keyword ...">
                                 </form>
                             </div>
                         </li>
