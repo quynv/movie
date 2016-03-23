@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use \yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 /**
  * This is the model class for table "movies".
  *
@@ -69,6 +70,11 @@ class Movie extends ActiveRecord
         return $instance;
     }
 
+    public function getTmdb_id()
+    {
+        return $this->data['id'];
+    }
+
     public function getTitle()
     {
         return $this->data['title'];
@@ -76,7 +82,10 @@ class Movie extends ActiveRecord
 
     public function getPoster($size)
     {
-        return Yii::$app->tmdb->config['images']['base_url'].$size.$this->data['poster_path'];
+        if(isset($this->data['poster_path']))
+            return Yii::$app->tmdb->config['images']['base_url'].$size.$this->data['poster_path'];
+        else
+            return Url::to('@web/img/movie_default.jpg');
     }
 
     public function getTrailers()
@@ -189,7 +198,7 @@ class Movie extends ActiveRecord
         return $crews;
     }
 
-    public static function getUpcomming($page = 1)
+    public static function getUpcoming($page = 1)
     {
         $movies = array();
         $results = Yii::$app->tmdb->getUpComing($page);
@@ -197,7 +206,7 @@ class Movie extends ActiveRecord
         {
             $movies[] = Movie::initWithData($result);
         }
-        return $movies;
+        return [$results['total_pages'],$results['total_results'],$movies];
     }
 
     public static function searchMovie($title, $year, $page)

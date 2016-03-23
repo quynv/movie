@@ -42,9 +42,9 @@ $this->title = "Detail | ".$movie->getTitle();
     <br>
     <br>
     <br>
-    <div class="row">
+    <div class="row col-lg-offset-4">
         <?php foreach($movie->getTrailers() as $video) { ?>
-        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="col-lg-12 col-md-6 col-sm-12">
             <h4><?= $video['name']?></h4>
             <div class="responsive-video">
                 <iframe src="http://www.youtube.com/embed/<?= $video['source']?>" allowfullscreen width="100%" frameborder="0">

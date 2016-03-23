@@ -86,4 +86,28 @@ class MoviesController extends BaseController
             'pages' => $pages
         ]);
     }
+
+    function actionUpcoming()
+    {
+        $page = Yii::$app->getRequest()->getQueryParam('page');
+
+        list($total_page, $total_item, $movies) = Movie::getUpcoming($page);
+        $pages = new Pagination();
+        $pages->setPage($page-1);
+        $pages->totalCount = $total_item;
+        return $this->render('coming', [
+            'movies' => $movies,
+            'pages' => $pages
+        ]);
+    }
+
+    function actionComing_soon($tmdb_id)
+    {
+        $this->layout = "@app/views/layouts/blank";
+        $movie = Movie::initWithData(Yii::$app->tmdb->getMovie(str_replace(array("\r\n", "\r",","), "", $tmdb_id)));
+        $this->movie = $movie;
+        return $this->render('upcoming', [
+            'movie' => $movie,
+        ]);
+    }
 }

@@ -58,8 +58,14 @@ use yii\helpers\Url;
                         <!-- End Home -->
 
                         <li class="dropdown">
-                            <a href="#">
+                            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/movies/upcoming')?>">
                                 Coming soon
+                            </a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/now_playing/')?>">
+                                Now playing
                             </a>
                         </li>
 
