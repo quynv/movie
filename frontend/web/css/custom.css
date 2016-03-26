@@ -49,11 +49,6 @@ iframe{
     cursor: pointer;
 }
 
-.btn-favourite:hover {
-    color: #C9015A;
-    border: solid 1px #C9015A;
-}
-
 .btn-send:hover {
     color: #18ba9b;
     border: solid 1px #18ba9b;

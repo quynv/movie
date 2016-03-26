@@ -2,12 +2,21 @@
 use kartik\social\FacebookPlugin;
 
 $this->title = "Detail | ".$movie->getTitle();
+$this->registerCssFile(Yii::$app->urlManager->baseUrl.'/css/favourite.css',['depends' => [\frontend\assets\AppAsset::className()]]);
+$this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depends' => [\frontend\assets\AppAsset::className()]]);
 ?>
 <div class="container content-md">
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="box-shadow shadow-effect-1">
                 <img src="<?= $movie->getPoster('w342') ?>" width="100%" class="img-responsive img-bordered">
+                <?php if($movie->infavourite){?>
+                    <div class="tooltips oneLine heart_icon on" data-toggle="tooltip" data-placement="top" title="In favourite" data-movie="<?= $movie->id?>" data-value="0"> </div>
+                <?php } else {?>
+                    <div class="tooltips oneLine heart_icon off" data-toggle="tooltip" data-placement="top" title="Add to favourite" data-movie="<?= $movie->id?>" data-value="1"> </div>
+                <?php }?>
+                <div class="oneLine num_vote"><?= count($movie->favourites)?></div>
+                <i class="tooltips icon-users fa fa-users" data-toggle="tooltip" data-placement="top" title="Ask your friend's rating"></i>
             </div>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-12">
@@ -23,10 +32,6 @@ $this->title = "Detail | ".$movie->getTitle();
                 <?php foreach($movie->genres as $genre){ ?>
                     <a href="#"><i class="fa fa-tags"></i><?= $genre->name?></a>&nbsp;&nbsp;
                 <?php } ?>
-            </p>
-            <p>
-                <i class="tooltips icon-custom rounded-x btn-favourite fa icon-color-grey fa-heart-o" data-toggle="tooltip" data-placement="top" title="Add to favourite"></i>
-                <i class="tooltips icon-custom rounded-x btn-send fa icon-color-grey  fa-paper-plane-o" data-toggle="tooltip" data-placement="top" title="Ask your friend's rating"></i>
             </p>
             <p>
                 <?= FacebookPlugin::widget(['type'=>FacebookPlugin::SEND, 'settings' => []]);?>
@@ -57,7 +62,7 @@ $this->title = "Detail | ".$movie->getTitle();
     <br>
     <br>
     <h4>Images</h4>
-    <?= $this->render('//template/portfolio',['movies' => $movie->getBackdrops('w780'), 'backdrop' => $movie->getBackdrop('w780')]);?>
+    <?= $this->render('//template/portfolio',['images' => $movie->getImages('w780'), 'backdrop' => $movie->getBackdrop('w780')]);?>
     <br>
     <br>
     <div class="row">

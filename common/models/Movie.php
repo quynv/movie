@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use frontend\models\Favourite;
 use Yii;
 use \yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -322,5 +323,15 @@ class Movie extends ActiveRecord
     {
         return $this->hasMany(Genre::className(), ['id' => 'genre_id'])
                     ->viaTable('movies_genres', ['movie_id' => 'id']);
+    }
+
+    public function getFavourites()
+    {
+        return $this->hasMany(Favourite::className(), ['movie_id' => 'id']);
+    }
+
+    public function getInfavourite()
+    {
+        return Favourite::findOne(['movie_id' => $this->id, 'user_id' => Yii::$app->user->id]);
     }
 }
