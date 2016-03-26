@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use frontend\models\Favourite;
 use Yii;
 use common\models\Movie;
+use common\models\Rating;
 use frontend\controllers\base\BaseController;
 use \yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -16,7 +17,7 @@ class MoviesController extends BaseController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['recommended', 'detail', 'search', 'favourite'],
+                'only' => ['recommended', 'detail', 'search', 'favourite', 'rating'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -25,7 +26,7 @@ class MoviesController extends BaseController
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['recommended', 'favourite'],
+                        'actions' => ['recommended', 'favourite', 'rating'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -139,6 +140,44 @@ class MoviesController extends BaseController
                 $response = [
                     'success' => $success,
                     'count' => Favourite::find()->where(['movie_id' => $movie])->count()
+                ];
+                \Yii::$app->response->format = 'json';
+                return $response;
+            }
+        } else {
+            throw new NotFoundHttpException('Page not found');
+        }
+    }
+
+    function actionRating()
+    {
+        if (Yii::$app->request->isAjax) {
+            if (Yii::$app->request->isPost) {
+                $value = Yii::$app->request->post()['value'];
+                $movie = Yii::$app->request->post()['movie'];
+                $rating = Rating::findOne(['movie_id' => $movie, 'user_id' => Yii::$app->user->id]);
+                $success = false;
+                if($rating == null) {
+                    $rating = new Rating();
+                    $rating -> movie_id = $movie;
+                    $rating -> user_id = Yii::$app->user->id;
+                    $rating -> rating = $value;
+                    if($rating -> save(false))
+                    {
+                        $success = true;
+                    }
+                }
+                elseif($rating) {
+                    $rating -> rating = $value;
+                    if($rating->update())
+                    {
+                        $success = true;
+                    }
+                }
+
+                $response = [
+                    'success' => $success,
+                    'rating' => $rating -> rating
                 ];
                 \Yii::$app->response->format = 'json';
                 return $response;

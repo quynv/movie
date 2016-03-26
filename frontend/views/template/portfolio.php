@@ -7,8 +7,26 @@ $this->registerCssFile(Yii::$app->urlManager->baseUrl.'/js/plugins/cubeportfolio
 ?>
 <div class="cube-portfolio container margin-bottom-60">
     <div id="grid-container" class="cbp-l-grid-agency">
+        <?php if(isset($videos)) {foreach($videos as $video){ ?>
+        <div class="cbp-item video">
+            <div class="cbp-caption">
+                <div class="cbp-caption-defaultWrap">
+                    <img src="<?= $backdrop?>">
+                </div>
+                <div class="cbp-caption-activeWrap">
+                    <div class="cbp-l-caption-alignCenter">
+                        <div class="cbp-l-caption-body">
+                            <ul class="link-captions">
+                                <li><a href="http://www.youtube.com/watch?v=<?= $video['source']?>&rel=0&autoplay=0" class="cbp-lightbox"><i class="rounded-x fa  fa-caret-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php }}?>
         <?php if(isset($images)){ foreach($images as $image) {?>
-        <div class="cbp-item">
+        <div class="cbp-item image">
             <div class="cbp-caption">
                 <div class="cbp-caption-defaultWrap">
                     <img src="<?= $image ?>">
@@ -17,7 +35,7 @@ $this->registerCssFile(Yii::$app->urlManager->baseUrl.'/js/plugins/cubeportfolio
                     <div class="cbp-l-caption-alignCenter">
                         <div class="cbp-l-caption-body">
                             <ul class="link-captions">
-                                <li><a href="<?= $image?>" class="cbp-lightbox"><i class="rounded-x fa fa-search"></i></a></li>
+                                <li><a href="<?= $image?>" class="cbp-lightbox"><i class="rounded-x fa fa-file-image-o"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -25,7 +43,7 @@ $this->registerCssFile(Yii::$app->urlManager->baseUrl.'/js/plugins/cubeportfolio
             </div>
         </div>
         <?php }} else {?>
-            <div class="cbp-item">
+            <div class="cbp-item image">
                 <div class="cbp-caption">
                     <div class="cbp-caption-defaultWrap">
                         <img src="<?= $backdrop?>">
@@ -34,7 +52,7 @@ $this->registerCssFile(Yii::$app->urlManager->baseUrl.'/js/plugins/cubeportfolio
                         <div class="cbp-l-caption-alignCenter">
                             <div class="cbp-l-caption-body">
                                 <ul class="link-captions">
-                                    <li><a href="<?= $backdrop?>" class="cbp-lightbox"><i class="rounded-x fa fa-search"></i></a></li>
+                                    <li><a href="<?= $backdrop?>" class="cbp-lightbox"><i class="rounded-x fa fa-file-image-o"></i></a></li>
                                 </ul>
                             </div>
                         </div>

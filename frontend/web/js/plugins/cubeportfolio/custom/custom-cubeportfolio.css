@@ -130,10 +130,10 @@
 
 .cube-portfolio .link-captions li i {
 	color: #444;
-	width: 30px;
-	height: 30px;
-	padding: 8px;
-	font-style: 14px;
+	width: 60px;
+	height: 60px;
+	padding-top: 18px;
+	font-size: 23px;
 	background: #fff;
 	text-align: center;
 	display: inline-block;
@@ -141,7 +141,6 @@
 
 .cube-portfolio .link-captions li i:hover {
 	color: #fff;
-	background: #72c02c;
 	-webkit-transition: all .2s ease-in-out;
   	-moz-transition: all .2s ease-in-out;
   	-o-transition: all .2s ease-in-out;

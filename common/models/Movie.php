@@ -334,4 +334,12 @@ class Movie extends ActiveRecord
     {
         return Favourite::findOne(['movie_id' => $this->id, 'user_id' => Yii::$app->user->id]);
     }
+
+    public function getRated()
+    {
+        $rate = Rating::findOne(['movie_id' => $this->id, 'user_id' => Yii::$app->user->id]);
+        if($rate)
+            return $rate->rating;
+        else return null;
+    }
 }

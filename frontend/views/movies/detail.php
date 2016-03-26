@@ -20,7 +20,22 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
             </div>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-12">
-            <h2><?= $movie->getTitle() ?></h2>
+            <h1><?= $movie->getTitle() ?></h1>
+            <div class="row">
+                <strong class="rating-label">Rating: &nbsp;&nbsp;</strong>
+                <div class="rating" data-rating="<?= $movie->rated ?>" data-movie="<?= $movie->id?>">
+                    <input type="radio" name="stars-rating" id="stars-rating-5" data-value="5">
+                    <label for="stars-rating-5"></label>
+                    <input type="radio" name="stars-rating" id="stars-rating-4" data-value="4">
+                    <label for="stars-rating-4"></label>
+                    <input type="radio" name="stars-rating" id="stars-rating-3" data-value="3">
+                    <label for="stars-rating-3"></label>
+                    <input type="radio" name="stars-rating" id="stars-rating-2" data-value="2">
+                    <label for="stars-rating-2"></label>
+                    <input type="radio" name="stars-rating" id="stars-rating-1" data-value="1">
+                    <label for="stars-rating-1"></label>
+                </div>
+            </div>
             <p><strong><?= Yii::t('frontend/views.detail', 'Released date:') ?></strong>&nbsp;<?= $movie->getReleaseDate();?></p>
             <p><strong><?= Yii::t('frontend/views.detail', 'Runtime:')?></strong>&nbsp;<?= $movie->getRuntime().Yii::t('frontend/views.detail', 'mins')?></p>
             <p>
@@ -28,9 +43,41 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
                 <?= $movie->getOverview() ?>
             </p>
             <p>
+                <strong><?= Yii::t('frontend/views.detail','Country:')?></strong>
+                <?php foreach($movie->getCountries() as $country){ ?>
+                    <a href="#">
+                        <?= $country['name']?>,
+                    </a>
+                <?php } ?>
+            </p>
+            <p>
+                <strong><?= Yii::t('frontend/views.detail','Companies:')?></strong>
+                <?php foreach($movie->getCompanies() as $company){ ?>
+                    <a href="#">
+                        <?= $company['name']?>,
+                    </a>
+                <?php } ?>
+            </p>
+            <p>
+                <strong><?= Yii::t('frontend/views.detail','Casts:')?></strong>
+                <?php foreach($movie->getCasts() as $cast){ ?>
+                    <a href="#" class="tooltips-image" data-placement="bottom" data-title="<img src='<?= $cast['avatar'] ?>' alt='<?= $cast['name']?>' style='border:none;'/>">
+                        <?= $cast['name']?>,
+                    </a>
+                <?php } ?>
+            </p>
+            <p>
+                <strong><?= Yii::t('frontend/views.detail','Crews:')?></strong>
+                <?php foreach($movie->getCrews() as $cast){ ?>
+                    <a href="#" class="tooltips-image" data-placement="bottom" data-title="<img src='<?= $cast['avatar'] ?>' alt='<?= $cast['name']?>' style='border:none;'/>">
+                        <?= $cast['name']?>,
+                    </a>
+                <?php } ?>
+            </p>
+            <p>
                 <strong><?= Yii::t('frontend/views.detail','Genres:')?> </strong>
                 <?php foreach($movie->genres as $genre){ ?>
-                    <a href="#"><i class="fa fa-tags"></i><?= $genre->name?></a>&nbsp;&nbsp;
+                    <a href="/genres/<?= $genre->id.'-'.strtolower(urlencode($genre->name))?>"><i class="fa fa-tags"></i><?= $genre->name?></a>&nbsp;&nbsp;
                 <?php } ?>
             </p>
             <p>
@@ -48,40 +95,27 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
     <br>
     <br>
     <div class="row col-lg-offset-4">
-        <?php foreach($movie->getTrailers() as $video) { ?>
-        <div class="col-lg-12 col-md-6 col-sm-12">
-            <h4><?= $video['name']?></h4>
-            <div class="responsive-video">
-                <iframe src="http://www.youtube.com/embed/<?= $video['source']?>" allowfullscreen width="100%" frameborder="0">
 
-                </iframe>
-            </div>
-        </div>
-        <?php } ?>
     </div>
     <br>
     <br>
-    <h4>Images</h4>
-    <?= $this->render('//template/portfolio',['images' => $movie->getImages('w780'), 'backdrop' => $movie->getBackdrop('w780')]);?>
+    <h4>Images and Videos</h4>
+    <?= $this->render('//template/portfolio',[
+        'videos' => $movie->getTrailers(),
+        'images' => $movie->getImages('w342'),
+        'backdrop' => $movie->getPoster('w780')
+    ]);?>
     <br>
     <br>
     <div class="row">
         <div class="tab-v6 container">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#review" data-toggle="tab" aria-expanded="true">Review&nbsp;&nbsp;&nbsp;</a></li>
-                <li class=""><a href="#cast" class="cast" data-toggle="tab" aria-expanded="false">Casts&nbsp;&nbsp;&nbsp;</a></li>
-                <li class=""><a href="#crew" class="crew" data-toggle="tab" aria-expanded="false">Crews&nbsp;&nbsp;&nbsp;</a></li>
                 <li class=""><a href="#settings-1" data-toggle="tab" aria-expanded="false">Your friend rated it&nbsp;&nbsp;&nbsp;</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade active in" id="review">
                     <?= FacebookPlugin::widget(['type'=>FacebookPlugin::COMMENT, 'settings' => ['data-width'=>1000, 'data-numposts'=>5]]);?>
-                </div>
-                <div class="tab-pane fade" id="cast">
-                    <?= $this->render('//template/casts',['users' => $movie->getCasts()]);?>
-                </div>
-                <div class="tab-pane fade" id="crew">
-                    <?= $this->render('//template/casts',['users' => $movie->getCrews()]);?>
                 </div>
                 <div class="tab-pane fade" id="settings-1">
                     <h4>Heading Sample 4</h4>
