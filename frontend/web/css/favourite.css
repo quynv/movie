@@ -1,0 +1,60 @@
+.heart_icon {
+    background: url("../img/twitter-heart-button.png");
+    background-size: 2900px;
+    background-repeat: no-repeat;
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+    position: relative;
+}
+
+.on { background-position: right; }
+
+.off { background-position: left; }
+
+.heart_icon:hover {	background-position: right;	}
+
+@-webkit-keyframes heart_animation {
+    from {background-position: left;}
+    to {background-position: right;}
+}
+
+@keyframes heart_animation {
+    from {background-position: left;}
+    to {background-position: right;}
+}
+
+.heartAnimation {
+    -webkit-animation-name: heart_animation;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: steps(28, end);
+
+    animation-name: heart_animation;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: steps(28, end);
+
+    background-position: right;
+}
+
+.num_vote {
+    margin-left: -20px;
+    font-size: 18px;
+    color: #333
+}
+
+div.oneLine { display: inline-block; vertical-align: middle; }
+
+.icon-users {
+    padding-top: 25px;
+    margin-left: 40px;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    color: #95a5a6;
+}

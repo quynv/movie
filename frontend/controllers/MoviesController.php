@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\models\Favourite;
 use Yii;
 use common\models\Movie;
 use frontend\controllers\base\BaseController;
@@ -15,7 +16,7 @@ class MoviesController extends BaseController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['recommended', 'detail', 'search'],
+                'only' => ['recommended', 'detail', 'search', 'favourite'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -24,7 +25,7 @@ class MoviesController extends BaseController
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['recommended'],
+                        'actions' => ['recommended', 'favourite'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -109,5 +110,41 @@ class MoviesController extends BaseController
         return $this->render('upcoming', [
             'movie' => $movie,
         ]);
+    }
+
+    function actionFavourite()
+    {
+        if (Yii::$app->request->isAjax) {
+            if (Yii::$app->request->isPost) {
+                $value = Yii::$app->request->post()['value'];
+                $movie = Yii::$app->request->post()['movie'];
+                $favourite = Favourite::findOne(['movie_id' => $movie, 'user_id' => Yii::$app->user->id]);
+                $success = false;
+                if($value == 1&&$favourite == null) {
+                    $favourite = new Favourite();
+                    $favourite -> movie_id = $movie;
+                    $favourite -> user_id = Yii::$app->user->id;
+                    if($favourite -> save(false))
+                    {
+                        $success = true;
+                    }
+                }
+                elseif($value == 0&&$favourite) {
+                    if($favourite->delete())
+                    {
+                        $success = true;
+                    }
+                }
+
+                $response = [
+                    'success' => $success,
+                    'count' => Favourite::find()->where(['movie_id' => $movie])->count()
+                ];
+                \Yii::$app->response->format = 'json';
+                return $response;
+            }
+        } else {
+            throw new NotFoundHttpException('Page not found');
+        }
     }
 }

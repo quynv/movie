@@ -7,7 +7,7 @@ $this->registerCssFile(Yii::$app->urlManager->baseUrl.'/js/plugins/cubeportfolio
 ?>
 <div class="cube-portfolio container margin-bottom-60">
     <div id="grid-container" class="cbp-l-grid-agency">
-        <?php if(isset($image)){ foreach($images as $image) {?>
+        <?php if(isset($images)){ foreach($images as $image) {?>
         <div class="cbp-item">
             <div class="cbp-caption">
                 <div class="cbp-caption-defaultWrap">
