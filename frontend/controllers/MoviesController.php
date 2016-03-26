@@ -113,6 +113,32 @@ class MoviesController extends BaseController
         ]);
     }
 
+    function actionNow_playing()
+    {
+        $page = Yii::$app->getRequest()->getQueryParam('page');
+
+        list($total_page, $total_item, $movies) = Movie::getNowPlaying($page);
+        $pages = new Pagination();
+        $pages->setPage($page-1);
+        $pages->totalCount = $total_item;
+        return $this->render('now_playing', [
+            'movies' => $movies,
+            'pages' => $pages
+        ]);
+    }
+
+    function actionMovie_playing($tmdb_id)
+    {
+        $this->layout = "@app/views/layouts/blank";
+        $movie = Movie::initWithData(Yii::$app->tmdb->getMovie(str_replace(array("\r\n", "\r",","), "", $tmdb_id)));
+        $this->movie = $movie;
+        $videos = Yii::$app->tmdb->getVideos($movie->getTmdb_id());
+        return $this->render('movie_playing', [
+            'movie' => $movie,
+            'videos' => $videos
+        ]);
+    }
+
     function actionFavourite()
     {
         if (Yii::$app->request->isAjax) {
