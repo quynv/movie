@@ -10,7 +10,7 @@
         init cubeportfolio
      *********************************/
     gridContainer.cubeportfolio({
-        layoutMode: 'grid',
+        layoutMode: 'slider',
         rewindNav: true,
         scrollByPage: false,
         defaultFilter: '*',
@@ -18,11 +18,18 @@
         gapHorizontal: 0,
         gapVertical: 0,
         gridAdjustment: 'responsive',
+        showPagination: false,
         mediaQueries: [{
+            width: 1500,
+            cols: 5
+        }, {
+            width: 1100,
+            cols: 4
+        }, {
             width: 800,
             cols: 3
         }, {
-            width: 500,
+            width: 480,
             cols: 2
         }, {
             width: 320,
