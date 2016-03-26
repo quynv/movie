@@ -237,19 +237,15 @@ class Movie extends ActiveRecord
         return Yii::$app->tmdb->getCredits(str_replace(array("\r\n", "\r",","), "", $movieId));
     }
 
-    public static function getNowPlaying($page=1 ,$size=10)
+    public static function getNowPlaying($page=1)
     {
         $movies = array();
         $results = Yii::$app->tmdb->getNowPlaying($page);
-        $count = 0;
         foreach($results['results'] as $result)
         {
-            if($count == $size) break;
-            $count++;
-            $movie = Movie::initWithData($result);
-            $movies[] = $movie;
+            $movies[] = Movie::initWithData($result);
         }
-        return $movies;
+        return [$results['total_pages'], $results['total_results'], $movies];
     }
 
     public static function setRequireData($movies)
