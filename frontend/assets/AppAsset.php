@@ -39,7 +39,7 @@ class AppAsset extends AssetBundle
         'js/plugins/masterslider/masterslider.min.js',
         'js/plugins/masonry/jquery.masonry.min.js',
         'js/pages/blog-masonry.js',
-        'js/pages/cast-masonry.js',
+        'js/pages/rating-masonry.js',
         'js/custom.js',
         'js/app.js',
     ];

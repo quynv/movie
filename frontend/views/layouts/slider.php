@@ -6,7 +6,8 @@ use yii\helpers\Url;
 <div class="ms-layers-template">
     <!-- masterslider -->
     <div class="master-slider ms-skin-black-2 round-skin" id="masterslider">
-        <?php foreach( $movies as $key => $movie ){?>
+        <?php $count = 0; foreach( $movies as $key => $movie ){?>
+            <?php if($count == 10) break; $count++; ?>
             <div class="ms-slide">
                 <?= Html::img('@web/js/plugins/masterslider/style/blank.gif',
                     ['data-src'=>Url::to($movie->getBackdrop('w1280'))])
@@ -38,13 +39,6 @@ use yii\helpers\Url;
                     data-ease="easeOutExpo"
                     >Release at <?= $movie->getReleaseDate()?></h3>
 
-                <a class="btn-u btn-brd btn-brd-width-2 btn-brd-hover btn-u-light rounded-4x ms-layer ms-promo-sub ms-promo-sub-in color-light"  style="left:10px; top:360px"
-                   data-effect="right(40)"
-                   data-duration="1300"
-                   data-delay="1300"
-                   data-ease="easeOutExpo"
-                   href="#"
-                    >View all</a>
             </div>
         <?php } ?>
     </div>

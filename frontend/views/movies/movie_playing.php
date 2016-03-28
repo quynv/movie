@@ -20,7 +20,7 @@ $this->title = 'Now playing | '.$movie->getTitle();
         </div>
         <div class="col-lg-8 col-md-8 col-sm-12 coming-soon">
             <div class="responsive-video">
-                <?php if($videos['results'][0]['site'] == 'YouTube') {?>
+                <?php if($videos['results'] && $videos['results'][0]['site'] == 'YouTube') {?>
                 <iframe width="100%" src="https://www.youtube.com/embed/<?= $videos['results'][0]['key']?>" frameborder="0" allowfullscreen>
 
                 </iframe>
