@@ -4,7 +4,8 @@ namespace common\models;
 
 use Yii;
 use \yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
+use \yii\db\Expression;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "ratings".
@@ -51,7 +52,17 @@ class Rating extends ActiveRecord
         ];
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
 
+    public function beforeSave($insert) {
+        $this->created_at = new Expression('NOW()');
+        return parent::beforeSave($insert);
+    }
 
     public static function similarity($user_rated ,$other_rated)
     {

@@ -10,6 +10,8 @@ use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\data\Pagination;
+use yii\web\NotFoundHttpException;
+use yii\db\Expression;
 
 /**
  * Site controller
@@ -29,7 +31,7 @@ class SiteController extends BaseController
     {
         $this->layout = "@app/views/layouts/base";
 
-        $playings = Movie::getNowPlaying();
+        list($total_pages, $total_items, $playings) = Movie::getNowPlaying();
 
         $query = Movie::find()->orderBy('id DESC');
         $countQuery = clone $query;
@@ -125,5 +127,43 @@ class SiteController extends BaseController
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionRender()
+    {
+        if(Yii::$app->request->isAjax)
+        {
+            $movies = null;
+            if(Yii::$app->request->isGet)
+            {
+                $movies = Movie::find()
+                    ->orderBy(new Expression('rand()'))
+                    ->limit(10)
+                    ->all();
+            }
+            elseif(Yii::$app->request->isPost)
+            {
+                $text = Yii::$app->request->post('keyword');
+                $year = Yii::$app->request->post('year');
+                $genre = Yii::$app->request->post('genre');
+                $query = Movie::find();
+                if($text) {
+                    $query->andWhere(['LIKE', 'title', $text]);
+                }
+                if($year) {
+                    $query->andWhere(['LIKE', 'title', $year]);
+                }
+                if($genre) {
+                    $query->joinWith('genres')->andwhere(['genres.id' => $genre]);
+                }
+                $movies = $query->limit(10)->all();
+            }
+
+            return $this->renderPartial('//template/render',['movies' => $movies]);
+        }
+        else
+        {
+            throw new NotFoundHttpException('Page not found');
+        }
     }
 }
