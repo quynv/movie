@@ -14,7 +14,7 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'user' => [
-            'identityClass' => 'frontend\models\User',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'loginUrl' => ['auth/login']
         ],
@@ -42,6 +42,8 @@ return [
                 '<id:\d+>-<slug:.+>' => 'movies/detail',
                 'recommended' => 'movies/recommended',
                 'genres/<id:\d+>-<slug:.+>' => 'genres/view',
+                'actors/<id:\d+>-<slug:.+>' => 'actors/view',
+                'directors/<id:\d+>-<slug:.+>' => 'directors/view',
                 'search' => 'movies/search',
             ),
         ],

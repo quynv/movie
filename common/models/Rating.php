@@ -55,13 +55,14 @@ class Rating extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['created_at'],
+                ],
+            ],
         ];
-    }
-
-    public function beforeSave($insert) {
-        $this->created_at = new Expression('NOW()');
-        return parent::beforeSave($insert);
     }
 
     public static function similarity($user_rated ,$other_rated)

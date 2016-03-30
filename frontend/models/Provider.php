@@ -3,6 +3,8 @@
 namespace frontend\models;
 
 use Yii;
+use \yii\db\ActiveRecord;
+use common\models\User;
 
 /**
  * This is the model class for table "providers".
@@ -12,7 +14,7 @@ use Yii;
  * @property string $provider_id
  * @property integer $user_id
  */
-class Provider extends \yii\db\ActiveRecord
+class Provider extends ActiveRecord
 {
     /**
      * @inheritdoc

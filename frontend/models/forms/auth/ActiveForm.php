@@ -5,7 +5,7 @@ use yii\base\Model;
 use Yii;
 
 use himiklab\yii2\recaptcha\ReCaptchaValidator;
-use frontend\models\User;
+use common\models\User;
 use frontend\controllers\utilities\Email;
 
 /**

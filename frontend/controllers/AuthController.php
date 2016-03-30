@@ -19,7 +19,7 @@ use frontend\models\forms\auth\SignupForm;
 use frontend\models\forms\auth\LoginForm;
 use frontend\models\forms\auth\ActiveForm;
 use frontend\controllers\utilities\Email;
-use frontend\models\User;
+use common\models\User;
 
 class AuthController extends BaseController
 {
@@ -176,9 +176,10 @@ class AuthController extends BaseController
                 } else {
                     $password = Yii::$app->security->generateRandomString(6);
                     $user = new User([
-                        'username' => $attributes['login'],
+                        'username' => strtolower(str_replace(' ', '_', $attributes['name'])),
                         'email' => $attributes['email'],
                         'password' => $password,
+                        'status' => User::STATUS_ACTIVE
                     ]);
                     $user->generateAuthKey();
                     $transaction = $user->getDb()->beginTransaction();

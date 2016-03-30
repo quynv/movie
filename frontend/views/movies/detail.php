@@ -1,7 +1,9 @@
 <?php
 use kartik\social\FacebookPlugin;
 
-$this->title = "Detail | ".$movie->getTitle();
+$this->title = "Detail | ".$movie->title;
+$this->registerCssFile(Yii::$app->urlManager->baseUrl.'/js/plugins/tooltipster/css/tooltipster.css',['depends' => [\frontend\assets\AppAsset::className()]]);
+$this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/plugins/tooltipster/js/jquery.tooltipster.min.js',['depends' => [\frontend\assets\AppAsset::className()]]);
 $this->registerCssFile(Yii::$app->urlManager->baseUrl.'/css/favourite.css',['depends' => [\frontend\assets\AppAsset::className()]]);
 $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depends' => [\frontend\assets\AppAsset::className()]]);
 ?>
@@ -20,7 +22,7 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
             </div>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-12">
-            <h1><?= $movie->getTitle() ?></h1>
+            <h1><?= $movie->title ?></h1>
             <div class="row">
                 <strong class="rating-label">Rating: &nbsp;&nbsp;</strong>
                 <div class="rating" data-rating="<?= $movie->rated ?>" data-movie="<?= $movie->id?>">
@@ -36,40 +38,32 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
                     <label for="stars-rating-1"></label>
                 </div>
             </div>
-            <p><strong><?= Yii::t('frontend/views.detail', 'Released date:') ?></strong>&nbsp;<?= $movie->getReleaseDate();?></p>
-            <p><strong><?= Yii::t('frontend/views.detail', 'Runtime:')?></strong>&nbsp;<?= $movie->getRuntime().Yii::t('frontend/views.detail', 'mins')?></p>
+            <p><strong><?= Yii::t('frontend/views.detail', 'Released date:') ?></strong>&nbsp;<?= $movie->released_at;?></p>
+            <p><strong><?= Yii::t('frontend/views.detail', 'Runtime:')?></strong>&nbsp;<?= $movie->runtime.Yii::t('frontend/views.detail', 'mins')?></p>
             <p>
                 <strong><?= Yii::t('frontend/views.detail','Description:')?></strong>
-                <?= $movie->getOverview() ?>
-            </p>
-            <p>
-                <strong><?= Yii::t('frontend/views.detail','Country:')?></strong>
-                <?php foreach($movie->getCountries() as $country){ ?>
-                    <a href="#">
-                        <?= $country['name']?>,
-                    </a>
-                <?php } ?>
+                <?= $movie->overview ?>
             </p>
             <p>
                 <strong><?= Yii::t('frontend/views.detail','Companies:')?></strong>
-                <?php foreach($movie->getCompanies() as $company){ ?>
+                <?php foreach($movie->companies as $company){ ?>
                     <a href="#">
                         <?= $company['name']?>,
                     </a>
                 <?php } ?>
             </p>
             <p>
-                <strong><?= Yii::t('frontend/views.detail','Casts:')?></strong>
-                <?php foreach($movie->getCasts() as $cast){ ?>
-                    <a href="#" class="tooltips-image" data-placement="bottom" data-title="<img src='<?= $cast['avatar'] ?>' alt='<?= $cast['name']?>' style='border:none;'/>">
-                        <?= $cast['name']?>,
+                <strong><?= Yii::t('frontend/views.detail','Directors:')?></strong>
+                <?php foreach($movie->directors as $director){ ?>
+                    <a href="#" class="tooltips-image" data-placement="bottom">
+                        <?= $director['name']?>,
                     </a>
                 <?php } ?>
             </p>
             <p>
-                <strong><?= Yii::t('frontend/views.detail','Crews:')?></strong>
-                <?php foreach($movie->getCrews() as $cast){ ?>
-                    <a href="#" class="tooltips-image" data-placement="bottom" data-title="<img src='<?= $cast['avatar'] ?>' alt='<?= $cast['name']?>' style='border:none;'/>">
+                <strong><?= Yii::t('frontend/views.detail','Casts:')?></strong>
+                <?php foreach($movie->casts as $cast){ ?>
+                    <a href="/actors/<?= $cast->id.'-'.strtolower(urlencode($cast->name))?>" data-value="<?= $cast->id?>" class="hovercard" data-placement="bottom">
                         <?= $cast['name']?>,
                     </a>
                 <?php } ?>
@@ -94,16 +88,12 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
     <br>
     <br>
     <br>
-    <div class="row col-lg-offset-4">
-
-    </div>
-    <br>
     <br>
     <h4>Images and Videos</h4>
     <?= $this->render('//template/portfolio',[
-        'videos' => $movie->getTrailers(),
+        'videos' => $movie->getVideos(),
         'images' => $movie->getImages('w342'),
-        'backdrop' => $movie->getPoster('w780')
+        'backdrop' => $movie->getPoster('w342')
     ]);?>
     <br>
     <br>
@@ -124,4 +114,7 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
             </div>
         </div>
     </div>
+</div>
+<div class="advance-content" style="display: none;">
+    <p>Loading....</p>
 </div>

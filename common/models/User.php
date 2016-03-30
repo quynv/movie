@@ -1,13 +1,13 @@
 <?php
-namespace frontend\models;
+namespace common\models;
 
-use common\models\Rating;
 use Yii;
 use yii\base\NotSupportedException;
 use \yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use frontend\models\Provider;
 
 /**
  * User model

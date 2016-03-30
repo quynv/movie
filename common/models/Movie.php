@@ -2,23 +2,27 @@
 
 namespace common\models;
 
-use frontend\models\Favourite;
 use Yii;
 use \yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use frontend\models\Favourite;
+
 /**
  * This is the model class for table "movies".
  *
  * @property integer $id
  * @property string $title
+ * @property string $overview
+ * @property string $poster
+ * @property string $backdrop
+ * @property integer $runtime
+ * @property string $released_at
+ * @property integer $tmdb_id
  * @property string $imdb_id
- * @property string $tmdb_id
  */
 class Movie extends ActiveRecord
 {
-    private $data;
-
     /**
      * @inheritdoc
      */
@@ -33,10 +37,13 @@ class Movie extends ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
-            [['id'], 'integer'],
-            [['title'], 'string', 'max' => 500],
-            [['imdb_id', 'tmdb_id'], 'string', 'max' => 50]
+            [['title', 'overview', 'poster', 'backdrop', 'runtime', 'released_at', 'tmdb_id', 'imdb_id'], 'required'],
+            [['overview'], 'string'],
+            [['runtime', 'tmdb_id'], 'integer'],
+            [['released_at'], 'safe'],
+            [['title'], 'string', 'max' => 400],
+            [['poster', 'backdrop'], 'string', 'max' => 255],
+            [['imdb_id'], 'string', 'max' => 20]
         ];
     }
 
@@ -48,213 +55,97 @@ class Movie extends ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'title' => Yii::t('app', 'Title'),
-            'imdb_id' => Yii::t('app', 'Imdb ID'),
+            'overview' => Yii::t('app', 'Overview'),
+            'poster' => Yii::t('app', 'Poster'),
+            'backdrop' => Yii::t('app', 'Backdrop'),
+            'runtime' => Yii::t('app', 'Runtime'),
+            'released_at' => Yii::t('app', 'Released At'),
             'tmdb_id' => Yii::t('app', 'Tmdb ID'),
+            'imdb_id' => Yii::t('app', 'Imdb ID'),
         ];
-    }
-
-    public function afterFind()
-    {
-        parent::afterFind();
-        $this->data = Yii::$app->tmdb->getMovie(str_replace(array("\r\n", "\r",","), "", $this->tmdb_id));
-    }
-
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    public static function initWithData($data)
-    {
-        $instance = new self();
-        $instance->data = $data;
-        return $instance;
-    }
-
-    public function getTmdb_id()
-    {
-        return $this->data['id'];
-    }
-
-    public function getTitle()
-    {
-        return $this->data['title'];
     }
 
     public function getPoster($size)
     {
-        if(isset($this->data['poster_path']))
-            return Yii::$app->tmdb->config['images']['base_url'].$size.$this->data['poster_path'];
+        if(isset($this->poster))
+            return Yii::$app->tmdb->config['images']['base_url'].$size.$this->poster;
         else
             return Url::to('@web/img/movie_default.jpg');
     }
 
-    public function getTrailers()
-    {
-        return $this->data['trailers']['youtube'];
-    }
-
-    public function getImages($size)
-    {
-        $images = array();
-        if(isset($this->data['images']['posters']))
-        {
-            foreach($this->data['images']['posters'] as $image)
-                $images[] = Yii::$app->tmdb->config['images']['base_url'].$size.$image['file_path'];
-        }
-        return $images;
-    }
-
-    public function getBackdrops($size)
-    {
-        $backdrops = array();
-        if(isset($this->data['images']['backdrops']))
-        {
-            foreach($this->data['images']['backdrops'] as $image)
-            $backdrops[] = Yii::$app->tmdb->config['images']['base_url'].$size.$image['file_path'];
-        }
-        return $backdrops;
-    }
-
     public function getBackdrop($size)
     {
-        return Yii::$app->tmdb->config['images']['base_url'].$size.$this->data['backdrop_path'];
+        return Yii::$app->tmdb->config['images']['base_url'].$size.$this->backdrop;
     }
 
-    public function getReleaseDate()
+    public function getFavourites()
     {
-        return $this->data['release_date'];
+        return $this->hasMany(Favourite::className(), ['movie_id' => 'id']);
     }
 
-    public function getRuntime()
+    public function getInfavourite()
     {
-        return $this->data['runtime'];
+        return Favourite::findOne(['movie_id' => $this->id, 'user_id' => Yii::$app->user->id]);
     }
 
-    public function getOverview()
+    public function getRated()
     {
-        return $this->data['overview'];
-    }
-
-    public function getHomepage()
-    {
-        return $this->data['homepage'];
+        $rate = Rating::findOne(['movie_id' => $this->id, 'user_id' => Yii::$app->user->id]);
+        if($rate)
+            return $rate->rating;
+        else return null;
     }
 
     public function getCompanies()
     {
-        return $this->data['production_companies'];
-    }
-
-    public function getCountries()
-    {
-        return $this->data['production_countries'];
+        return $this->hasMany(Company::className(), ['id' => 'company_id'])
+            ->viaTable('movies_companies', ['movie_id' => 'id']);
     }
 
     public function getCasts()
     {
-        $casts = array();
-        if(isset($this->data['casts']['cast']))
+        return $this->hasMany(Cast::className(), ['id' => 'cast_id'])
+            ->viaTable('movies_actors', ['movie_id' => 'id']);
+    }
+
+    public function getDirectors()
+    {
+        return $this->hasMany(Cast::className(), ['id' => 'cast_id'])
+            ->viaTable('movies_directors', ['movie_id' => 'id']);
+    }
+
+    public function getGenres()
+    {
+        return $this->hasMany(Genre::className(), ['id' => 'genre_id'])
+            ->viaTable('movies_genres', ['movie_id' => 'id']);
+    }
+
+    public function getVideos()
+    {
+        $videos = Yii::$app->tmdb->getVideos($this->tmdb_id);
+        $results = array();
+        foreach($videos['results'] as $result)
         {
-            foreach($this->data['casts']['cast'] as $user)
-                if($user['profile_path'])
-                {
-                    $casts[] = [
-                        'name' => $user['name'],
-                        'avatar' => Yii::$app->tmdb->config['images']['base_url'].'w185'.$user['profile_path']
-                    ];
-                }
-                else
-                {
-                    $casts[] = [
-                        'name' => $user['name'],
-                        'avatar' => null
-                    ];
-                }
+            if($result['site'] == 'YouTube')
+            {
+                $results[] = [
+                    'name' => $result['name'],
+                    'source' => $result['key']
+                ];
+            }
         }
-        return $casts;
+        return $results;
     }
 
-    public function getCrews()
+    public function getImages($size)
     {
-        $crews = array();
-        if(isset($this->data['casts']['crew']))
+        $images = Yii::$app->tmdb->getImages($this->tmdb_id);
+        $results = array();
+        foreach($images['posters'] as $result)
         {
-            foreach($this->data['casts']['crew'] as $user)
-                if($user['profile_path'])
-                {
-                    $crews[] = [
-                        'name' => $user['name'],
-                        'avatar' => Yii::$app->tmdb->config['images']['base_url'].'w185'.$user['profile_path']
-                    ];
-                }
-                else
-                {
-                    $crews[] = [
-                        'name' => $user['name'],
-                        'avatar' => null
-                    ];
-                }
+            $results[] = Yii::$app->tmdb->config['images']['base_url'].$size.$result['file_path'];
         }
-        return $crews;
-    }
-
-    public static function getUpcoming($page = 1)
-    {
-        $movies = array();
-        $results = Yii::$app->tmdb->getUpComing($page);
-        foreach($results['results'] as $result)
-        {
-            $movies[] = Movie::initWithData($result);
-        }
-        return [$results['total_pages'],$results['total_results'],$movies];
-    }
-
-    public static function searchMovie($title, $year, $page)
-    {
-        $movies = array();
-        $results = Yii::$app->tmdb->searchMovie($title, $year, $page);
-        foreach($results['results'] as $result)
-        {
-            $movies[] = Movie::initWithData($result);
-        }
-        return [$results['total_pages'],$movies];
-    }
-
-    public static function getVideos($movieId)
-    {
-        $videos = Yii::$app->tmdb->getVideos(str_replace(array("\r\n", "\r",","), "", $movieId));
-        return $videos['results'];
-    }
-
-    public static function getPictures($movieId)
-    {
-        return Yii::$app->tmdb->getImages(str_replace(array("\r\n", "\r",","), "", $movieId));
-    }
-
-    public static function getCredits($movieId)
-    {
-        return Yii::$app->tmdb->getCredits(str_replace(array("\r\n", "\r",","), "", $movieId));
-    }
-
-    public static function getNowPlaying($page=1)
-    {
-        $movies = array();
-        $results = Yii::$app->tmdb->getNowPlaying($page);
-        foreach($results['results'] as $result)
-        {
-            $movies[] = Movie::initWithData($result);
-        }
-        return [$results['total_pages'], $results['total_results'], $movies];
-    }
-
-    public static function setRequireData($movies)
-    {
-        foreach($movies as $movie)
-        {
-            $movie->setData(Yii::$app->tmdb->getMovie(str_replace(array("\r\n", "\r",","), "", $movie->tmdb_id)));
-        }
-        return $movies;
+        return $results;
     }
 
     public static function getUserBaseRecommends($user, $num)
@@ -302,40 +193,5 @@ class Movie extends ActiveRecord
             $recommend[] = Movie::findOne(['id' => $key]);
         }
         return $recommend;
-    }
-
-    public static function getItemBasedRecommends($movie, $num)
-    {
-        $others = Rating::find()->select('movie_id')->where([''])->distinct()->all();
-
-    }
-
-    public function getRatings()
-    {
-        return $this->hasMany(Rating::className(), ['movie_id' => 'id']);
-    }
-
-    public function getGenres()
-    {
-        return $this->hasMany(Genre::className(), ['id' => 'genre_id'])
-                    ->viaTable('movies_genres', ['movie_id' => 'id']);
-    }
-
-    public function getFavourites()
-    {
-        return $this->hasMany(Favourite::className(), ['movie_id' => 'id']);
-    }
-
-    public function getInfavourite()
-    {
-        return Favourite::findOne(['movie_id' => $this->id, 'user_id' => Yii::$app->user->id]);
-    }
-
-    public function getRated()
-    {
-        $rate = Rating::findOne(['movie_id' => $this->id, 'user_id' => Yii::$app->user->id]);
-        if($rate)
-            return $rate->rating;
-        else return null;
     }
 }

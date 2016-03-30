@@ -9,7 +9,7 @@ namespace frontend\models\forms\auth;
 
 use Yii;
 use yii\base\Model;
-use frontend\models\User;
+use common\models\User;
 
 /**
  * Login form

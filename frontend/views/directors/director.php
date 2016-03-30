@@ -3,11 +3,12 @@
 /* @var $this yii\web\View */
 use \yii\widgets\LinkPager;
 
-$this->title = 'Movie | Index';
+$this->title = 'Director | '.$cast->name;
 ?>
 <div class="site-index">
-    <?= $this->render('//layouts/slider',['movies' => $comings]);?>
     <div class="row">
+        <br>
+        <br>
         <br>
         <br>
     </div>
@@ -19,11 +20,10 @@ $this->title = 'Movie | Index';
                 <?php } ?>
             </div>
         </div>
-        <div class="text-center">
-            <?= LinkPager::widget([
-                'pagination' => $pages,
-            ]);?>
-        </div>
     </div>
-
+    <div class="text-center">
+        <?= LinkPager::widget([
+            'pagination' => $pages,
+        ]);?>
+    </div>
 </div>

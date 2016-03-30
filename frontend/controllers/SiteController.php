@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Movie;
+use common\models\TMDB;
 use frontend\controllers\base\BaseController;
 use Yii;
 use frontend\models\PasswordResetRequestForm;
@@ -31,7 +32,7 @@ class SiteController extends BaseController
     {
         $this->layout = "@app/views/layouts/base";
 
-        list($total_pages, $total_items, $playings) = Movie::getNowPlaying();
+        list($total_pages, $total_items, $comings) = TMDB::getUpcoming();
 
         $query = Movie::find()->orderBy('id DESC');
         $countQuery = clone $query;
@@ -41,7 +42,7 @@ class SiteController extends BaseController
             ->limit($pages->limit)
             ->all();
         return $this->render('index', [
-            'playings' => $playings,
+            'comings' => $comings,
             'movies' => $movies,
             'pages' => $pages
         ]);

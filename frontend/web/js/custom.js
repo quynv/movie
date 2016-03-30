@@ -1,11 +1,12 @@
 /* Write here your custom javascript codes */
 $(document).ready(function(){
-    $('.tooltips-image').tooltip({html: true});
     var value = $('.rating').data('rating');
     if(value) {
         $('#stars-rating-'+value).prop('checked', true);
     }
 });
+
+
 
 $(document).on('click', '.rating > input', function(){
     var value = $(this).data('value');

@@ -31,7 +31,7 @@ class GenresController extends BaseController
                 'pages' => $pagination
             ]);
         } else {
-            throw new NotFoundHttpException('Movie not found');
+            throw new NotFoundHttpException('Genre not found');
         }
     }
 

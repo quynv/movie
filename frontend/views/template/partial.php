@@ -3,7 +3,7 @@
         <img class="img-responsive" src="<?= $movie->getPoster('w342')?>" alt="">
     </a>
     <div class="">
-        <h3><a href="javascript:void(0);"><?= $movie->getTitle()?></a></h3>
+        <h3><a href="javascript:void(0);"><?= $movie->title?></a></h3>
         <div class="grid-boxes-news">
             <div class="rating" data-rating="0" data-movie="1">
                 <input type="radio" name="stars-rating-<?= $movie->id?>" id="stars-rating-5-<?= $movie->id?>" data-value="5">
