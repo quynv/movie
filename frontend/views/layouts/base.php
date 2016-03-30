@@ -48,11 +48,11 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 <?= $this->render('scripts') ?>
 <?php
-//if($this->context->required['is_required'])
-//{
-//    echo $this->render('//template/rating_require',[]);
-//}
-//?>
+if($this->context->required['is_required'])
+{
+    echo $this->render('//template/rating_require',[]);
+}
+?>
 </body>
 </html>
 <?php $this->endPage() ?>

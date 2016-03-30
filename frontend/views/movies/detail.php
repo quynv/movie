@@ -2,8 +2,7 @@
 use kartik\social\FacebookPlugin;
 
 $this->title = "Detail | ".$movie->title;
-$this->registerCssFile(Yii::$app->urlManager->baseUrl.'/js/plugins/tooltipster/css/tooltipster.css',['depends' => [\frontend\assets\AppAsset::className()]]);
-$this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/plugins/tooltipster/js/jquery.tooltipster.min.js',['depends' => [\frontend\assets\AppAsset::className()]]);
+$this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/rating.js',['depends' => [\frontend\assets\AppAsset::className()]]);
 $this->registerCssFile(Yii::$app->urlManager->baseUrl.'/css/favourite.css',['depends' => [\frontend\assets\AppAsset::className()]]);
 $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depends' => [\frontend\assets\AppAsset::className()]]);
 ?>

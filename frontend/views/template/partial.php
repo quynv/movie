@@ -5,7 +5,7 @@
     <div class="">
         <h3><a href="javascript:void(0);"><?= $movie->title?></a></h3>
         <div class="grid-boxes-news">
-            <div class="rating" data-rating="0" data-movie="1">
+            <div class="rating" data-rating="0" data-movie="<?= $movie->id?>">
                 <input type="radio" name="stars-rating-<?= $movie->id?>" id="stars-rating-5-<?= $movie->id?>" data-value="5">
                 <label for="stars-rating-5-<?= $movie->id?>"></label>
                 <input type="radio" name="stars-rating-<?= $movie->id?>" id="stars-rating-4-<?= $movie->id?>" data-value="4">

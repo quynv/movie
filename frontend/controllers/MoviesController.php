@@ -165,6 +165,7 @@ class MoviesController extends BaseController
                     $rating -> rating = $value;
                     if($rating -> save(false))
                     {
+                        $this->required();
                         $success = true;
                     }
                 }
@@ -172,13 +173,15 @@ class MoviesController extends BaseController
                     $rating -> rating = $value;
                     if($rating->update())
                     {
+                        $this->required();
                         $success = true;
                     }
                 }
 
                 $response = [
                     'success' => $success,
-                    'rating' => $rating -> rating
+                    'rating' => $rating -> rating,
+                    'required' => $this->required
                 ];
                 \Yii::$app->response->format = 'json';
                 return $response;
