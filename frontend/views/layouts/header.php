@@ -64,12 +64,6 @@ use yii\helpers\Url;
                         </li>
 
                         <li class="dropdown">
-                            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/movies/now_playing/')?>">
-                                Now playing
-                            </a>
-                        </li>
-
-                        <li class="dropdown">
                             <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/recommended/')?>">
                                 Recommended
                             </a>
@@ -99,6 +93,18 @@ use yii\helpers\Url;
                             </ul>
                         </li>
                         <!-- End Shortcodes -->
+
+                        <li class="dropdown">
+                            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/actors/all')?>">
+                                Actors
+                            </a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/directors/all')?>">
+                                Directors
+                            </a>
+                        </li>
 
                         <?php if(Yii::$app->user->isGuest) { ?>
                         <li class="dropdown">

@@ -19,6 +19,13 @@ AuthAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <?php if(isset($this->context->movie)) {?>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="<?= Url::to(['/movies/coming_soon/', 'tmdb_id' => $this->context->movie->getTmdb_id()])?>" />
+    <meta property="og:title" content="<?= $this->context->movie->getTitle()?>" />
+    <meta property="og:description" content="<?= $this->context->movie->getOverview()?>" />
+    <meta property="og:image" content="<?= $this->context->movie->getPoster('w342')?>" />
+    <?php } ?>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <!-- Favicon -->
@@ -55,7 +62,22 @@ AuthAsset::register($this);
         ]
     ]);?>
 <?php } ?>
+<script>
+    $(document).ready(function(){
+        $('a[href^="#"]').on('click',function (e) {
+            e.preventDefault();
 
+            var target = this.hash;
+            var $target = $(target);
+
+            $('html, body').stop().animate({
+                'scrollTop': $target.offset().top
+            }, 900, 'swing', function () {
+                window.location.hash = target;
+            });
+        });
+    });
+</script>
 </body>
 </html>
 <?php $this->endPage() ?>

@@ -3,10 +3,12 @@
 /* @var $this yii\web\View */
 use \yii\widgets\LinkPager;
 
-$this->title = 'Movie | Now playing';
+$this->title = 'Actor | '.$cast->name;
 ?>
 <div class="site-index">
     <div class="row">
+        <br>
+        <br>
         <br>
         <br>
     </div>
@@ -14,15 +16,14 @@ $this->title = 'Movie | Now playing';
         <div class="blog_masonry_3col">
             <div class="container-fluid content grid-boxes">
                 <?php foreach($movies as $movie) { ?>
-                    <?= $this->render('//template/playing',['movie' => $movie]);?>
+                    <?= $this->render('//template/movie',['movie' => $movie]);?>
                 <?php } ?>
             </div>
         </div>
-        <div class="text-center">
-            <?= LinkPager::widget([
-                'pagination' => $pages,
-            ]);?>
-        </div>
     </div>
-
+    <div class="text-center">
+        <?= LinkPager::widget([
+            'pagination' => $pages,
+        ]);?>
+    </div>
 </div>

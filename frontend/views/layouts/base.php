@@ -22,9 +22,9 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php if(isset($this->context->movie)) {?>
     <meta property="og:type" content="article"/>
-    <meta property="og:url" content="<?= Yii::$app->urlManager->createAbsoluteUrl('/').$this->context->movie->id.'-'.urlencode($this->context->movie->getTitle())?>" />
-    <meta property="og:title" content="<?= $this->context->movie->getTitle()?>" />
-    <meta property="og:description" content="<?= $this->context->movie->getOverview()?>" />
+    <meta property="og:url" content="<?= Yii::$app->urlManager->createAbsoluteUrl('/').$this->context->movie->id.'-'.str_replace([':', ' '], '-', $this->context->movie->title)?>" />
+    <meta property="og:title" content="<?= $this->context->movie->title?>" />
+    <meta property="og:description" content="<?= $this->context->movie->overview?>" />
     <meta property="og:image" content="<?= $this->context->movie->getPoster('w342')?>" />
     <?php } ?>
     <!-- Favicon -->
@@ -48,11 +48,11 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 <?= $this->render('scripts') ?>
 <?php
-if($this->context->required['is_required'])
-{
-    echo $this->render('//template/rating_require',[]);
-}
-?>
+//if($this->context->required['is_required'])
+//{
+//    echo $this->render('//template/rating_require',[]);
+//}
+//?>
 </body>
 </html>
 <?php $this->endPage() ?>

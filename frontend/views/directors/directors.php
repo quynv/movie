@@ -3,10 +3,9 @@
 /* @var $this yii\web\View */
 use \yii\widgets\LinkPager;
 
-$this->title = 'Movie | Index';
+$this->title = 'Directors | All';
 ?>
 <div class="site-index">
-    <?= $this->render('//layouts/slider',['movies' => $comings]);?>
     <div class="row">
         <br>
         <br>
@@ -14,8 +13,8 @@ $this->title = 'Movie | Index';
     <div class="row">
         <div class="blog_masonry_3col">
             <div class="container-fluid content grid-boxes">
-                <?php foreach($movies as $movie) { ?>
-                    <?= $this->render('//template/movie',['movie' => $movie]);?>
+                <?php foreach($directors as $director) { ?>
+                    <?= $this->render('//template/director',['cast' => $director]);?>
                 <?php } ?>
             </div>
         </div>

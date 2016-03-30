@@ -51,12 +51,13 @@ class Favourite extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
         ];
-    }
-
-    public function beforeSave($insert) {
-        $this->updated_at = new Expression('NOW()');
-        return parent::beforeSave($insert);
     }
 }
