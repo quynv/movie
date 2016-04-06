@@ -152,7 +152,7 @@ class SiteController extends BaseController
                     $query->andWhere(['LIKE', 'title', $text]);
                 }
                 if($year) {
-                    $query->andWhere(['LIKE', 'title', $year]);
+                    $query->andWhere(['YEAR(`released_at`)' => $year]);
                 }
                 if($genre) {
                     $query->joinWith('genres')->andwhere(['genres.id' => $genre]);

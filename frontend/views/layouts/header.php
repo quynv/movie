@@ -82,7 +82,7 @@ use yii\helpers\Url;
                                                 <div>
                                                     <ul class="list-unstyled">
                                                         <?php foreach($this->context->genres as $genre) {?>
-                                                        <li class="col-md-3"><a href="/genres/<?= $genre->id.'-'.strtolower(urlencode($genre->name))?>"><i class="fa fa-bookmark-o"></i><?= $genre->name?></a></li>
+                                                        <li class="col-md-3 col-sm-6 col-xs-6"><a href="/genres/<?= $genre->id.'-'.strtolower(urlencode($genre->name))?>"><i class="fa fa-bookmark-o"></i><?= $genre->name?></a></li>
                                                         <?php } ?>
                                                     </ul>
                                                 </div>
@@ -119,12 +119,17 @@ use yii\helpers\Url;
                         </li>
                         <?php } else {?>
                             <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-                                    <?= Yii::$app->user->identity->username ?>
+                                <a href="javascript:void(0);" class="dropdown-toggle navbar-brand" data-toggle="dropdown">
+                                    <img src="<?= Url::toRoute('@web/img/default_avatar.png')?>" class="default-logo img-responsive rounded-x tooltips white-tooltip"
+                                    title="<?= Yii::$app->user->identity->username ?>" data-placement="right">
+                                    <span class="visible-sm visible-xs">
+                                        <i class="fa  fa-user"></i>
+                                        <?= Yii::$app->user->identity->username ?>
+                                    </span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Profile</a></li>
-                                    <li><a href="#">Favourite</a></li>
+                                    <li><a href="/u/<?= Yii::$app->user->identity->username ?>/favourites">Profile</a></li>
+                                    <li><a href="#">Notifications</a></li>
                                     <li><a href="#">Setting</a></li>
                                     <li><a href="<?= Url::toRoute('auth/logout')?>" data-method="post">Logout</a></li>
                                 </ul>

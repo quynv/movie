@@ -1,9 +1,16 @@
 /* Write here your custom javascript codes */
 $(document).ready(function(){
-    var value = $('.rating').data('rating');
-    if(value) {
-        $('#stars-rating-'+value).prop('checked', true);
-    }
+    $('.rating').each(function(){
+        var value = $(this).data('rating');
+        if(value) {
+            $('#stars-rating-'+value).prop('checked', true);
+        }
+
+        var movie = $(this).data('movie');
+        if(movie) {
+            $('#stars-rating-'+value+'-'+movie).prop('checked', true);
+        }
+    });
 });
 
 
@@ -27,7 +34,9 @@ $(document).on('click', '.rating > input', function(){
             }
             else
             {
-                location.reload();
+                if($('#rating-modal').length){
+                    location.reload();
+                }
             }
         },
         error: function(data) {
