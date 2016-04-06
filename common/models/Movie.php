@@ -96,6 +96,11 @@ class Movie extends ActiveRecord
         else return null;
     }
 
+    public function getRatings()
+    {
+        return $this->hasMany(Rating::className(), ['movie_id' => 'id']);
+    }
+
     public function getCompanies()
     {
         return $this->hasMany(Company::className(), ['id' => 'company_id'])

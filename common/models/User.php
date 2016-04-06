@@ -1,6 +1,8 @@
 <?php
 namespace common\models;
 
+use frontend\models\Follow;
+use frontend\models\Friend;
 use Yii;
 use yii\base\NotSupportedException;
 use \yii\db\Expression;
@@ -8,6 +10,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use frontend\models\Provider;
+use yii\helpers\Url;
 
 /**
  * User model
@@ -15,6 +18,7 @@ use frontend\models\Provider;
  * @property integer $id
  * @property string $username
  * @property string $password
+ * @property integer $avatar
  * @property string $access_token
  * @property string $email
  * @property string $auth_key
@@ -29,7 +33,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_NOT_ACTIVE = 10;
     const STATUS_ACTIVE = 100;
-
+    const NONE_AVATAR = 0;
     /**
      * @inheritdoc
      */
@@ -212,13 +216,55 @@ class User extends ActiveRecord implements IdentityInterface
         $this->expire_date = time();
     }
 
+    public function getAvatar($size = 53)
+    {
+        if($this->avatar == self::NONE_AVATAR) {
+            return Url::toRoute('@web/img/default_avatar.png');
+        } else {
+            $provider = Provider::findOne(['id' => $this->avatar]);
+            return Yii::$app->avatar->getAvatar(strtolower($provider->provider), $provider->provider_id, $size);
+        }
+    }
+
     public function getProvider()
     {
-        return $this->hasOne(Provider::className(), ['id' => 'user_id']);
+        return $this->hasMany(Provider::className(), ['id' => 'user_id']);
     }
 
     public function getRatings()
     {
         return $this->hasMany(Rating::className(), ['user_id' => 'id']);
+    }
+
+    public static function getRated($movie_id)
+    {
+        $rating = Rating::find()->where(['user_id' => Yii::$app->user->id, 'movie_id' => $movie_id])->one();
+        if($rating) return $rating->rating;
+        return 0;
+    }
+
+    public function getFavourites()
+    {
+        return $this->hasMany(Movie::className(), ['id' => 'movie_id'])
+                    ->viaTable('favourites', ['user_id' => 'id']);
+    }
+
+    public function getFollowers()
+    {
+        return $this->hasMany(User::className(), ['id' => 'user_id'])
+            ->viaTable('follows', ['followed' => 'id']);
+    }
+
+    public function getFollowing()
+    {
+        return $this->hasMany(User::className(), ['id' => 'followed'])
+            ->viaTable('follows', ['user_id' => 'id']);
+    }
+
+    public function getIs_following()
+    {
+        $follow = Follow::findOne(['user_id' => Yii::$app->user->id, 'followed' => $this->id]);
+        if($follow) return true;
+        return false;
     }
 }

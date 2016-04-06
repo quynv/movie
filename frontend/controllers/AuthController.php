@@ -179,7 +179,8 @@ class AuthController extends BaseController
                         'username' => strtolower(str_replace(' ', '_', $attributes['name'])),
                         'email' => $attributes['email'],
                         'password' => $password,
-                        'status' => User::STATUS_ACTIVE
+                        'status' => User::STATUS_ACTIVE,
+                        'avatar' => User::NONE_AVATAR
                     ]);
                     $user->generateAuthKey();
                     $transaction = $user->getDb()->beginTransaction();

@@ -45,6 +45,10 @@ return [
                 'actors/<id:\d+>-<slug:.+>' => 'actors/view',
                 'directors/<id:\d+>-<slug:.+>' => 'directors/view',
                 'search' => 'movies/search',
+                'u/<username:\w+>/favourites' => 'users/favourites',
+                'u/<username:\w+>/ratings' => 'users/ratings',
+                'u/<username:\w+>/followers' => 'users/followers',
+                'u/<username:\w+>/following' => 'users/following'
             ),
         ],
     ],
