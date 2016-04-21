@@ -48,7 +48,8 @@ return [
                 'u/<username:\w+>/favourites' => 'users/favourites',
                 'u/<username:\w+>/ratings' => 'users/ratings',
                 'u/<username:\w+>/followers' => 'users/followers',
-                'u/<username:\w+>/following' => 'users/following'
+                'u/<username:\w+>/following' => 'users/following',
+                'u/<username:\w+>/notifications' => 'users/notifications'
             ),
         ],
     ],

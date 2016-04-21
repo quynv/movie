@@ -26,6 +26,7 @@ class SignupForm extends Model
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
+            ['username', 'match', 'pattern' => '/^[a-zA-Z0-9_]+$/', 'message' => 'Your username can only contain alphanumeric characters, underscores.'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 

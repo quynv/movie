@@ -690,3 +690,33 @@
     }
 }
 
+label.img-avatar {
+    text-align: center;
+}
+
+label.img-avatar > input{ /* HIDE RADIO */
+    visibility: hidden; /* Makes input not-clickable */
+    position: absolute; /* Remove input from document flow */
+}
+label.img-avatar > input + img{ /* IMAGE STYLES */
+    cursor:pointer;
+    -webkit-filter: grayscale(1);
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+label.img-avatar > input + img:hover{ /* IMAGE STYLES */
+    -webkit-filter: grayscale(0);
+    -webkit-filter: grayscale(0%);
+    filter: none;
+    padding: 3px;
+    border: solid 1px teal;
+}
+
+label.img-avatar > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+    -webkit-filter: grayscale(0);
+    -webkit-filter: grayscale(0%);
+    filter: none;
+    padding: 3px;
+    border: solid 1px teal;
+}

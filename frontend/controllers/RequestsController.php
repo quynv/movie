@@ -2,27 +2,28 @@
 /**
  * Created by PhpStorm.
  * User: Nguyen Quy
- * Date: 4/6/2016
- * Time: 9:39 PM
+ * Date: 4/7/2016
+ * Time: 1:08 AM
  */
 
 namespace frontend\controllers;
 
-use frontend\models\Follow;
-use frontend\models\Notification;
-use Yii;
-use frontend\controllers\base\BaseController;
-use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
 
-class FollowController extends BaseController
+use frontend\controllers\base\BaseController;
+use frontend\models\Notification;
+use frontend\models\Request;
+use yii\filters\AccessControl;
+use Yii;
+use yii\web\NotFoundHttpException;
+
+class RequestsController extends BaseController
 {
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['follow', 'unfollow'],
+                'only' => ['check', 'uncheck'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -31,7 +32,7 @@ class FollowController extends BaseController
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['follow', 'unfollow'],
+                        'actions' => ['check', 'uncheck'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -39,18 +40,20 @@ class FollowController extends BaseController
         ];
     }
 
-    public function actionFollow()
+    public function actionCheck()
     {
         if (Yii::$app->request->isAjax) {
             $success = false;
             if (Yii::$app->request->isPost) {
-                $followed = Yii::$app->request->post()['id'];
-                $follow = new Follow();
-                $follow->user_id = Yii::$app->user->id;
-                $follow->followed = $followed;
-                if($follow->save(false))
+                $requested = Yii::$app->request->post()['id'];
+                $movie = Yii::$app->request->post()['movie'];
+                $request = new Request();
+                $request->user_id = Yii::$app->user->id;
+                $request->requested = $requested;
+                $request->movie_id = $movie;
+                if($request->save(false))
                 {
-                    Notification::addNotification($followed, Notification::FOLLOW, Yii::$app->user->id);
+                    Notification::addNotification($requested, Notification::REQUEST, $request->id);
                     $success = true;
                 }
             }
@@ -66,16 +69,20 @@ class FollowController extends BaseController
         }
     }
 
-    public function actionUnfollow()
+    public function actionUncheck()
     {
         if (Yii::$app->request->isAjax) {
             $success = false;
             if (Yii::$app->request->isPost) {
-                $followed = Yii::$app->request->post()['id'];
-                $follow = Follow::findOne(['user_id' => Yii::$app->user->id, 'followed' => $followed]);
-                if($follow)
+                $requested = Yii::$app->request->post()['id'];
+                $movie = Yii::$app->request->post()['movie'];
+                $request = Request::findOne([
+                    'user_id' => Yii::$app->user->id,
+                    'requested' => $requested,
+                    'movie_id' => $movie]);
+                if($request)
                 {
-                    $follow->delete();
+                    $request->delete();
                     $success = true;
                 }
             }

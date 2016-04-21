@@ -237,3 +237,31 @@ input.follow-btn {
     animation: follow-animation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     animation-fill-mode:forwards;
 }
+
+#requestModal .modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}
+#requestModal .list-user label{
+    float: left;
+}
+#requestModal .list-user input{
+    margin-top: 15px;
+    float: right;
+}
+
+.space-color {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: #18ba9b;
+}
+
+.btn-filter {
+    background-color: #18ba9b;
+    border-color: #18ba97;
+    color: #fff;
+}
+
+.custom-dropdown-filter {
+    left: -75px;
+}

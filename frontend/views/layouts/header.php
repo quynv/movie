@@ -27,9 +27,9 @@ use yii\helpers\Url;
                 <div class="header-inner-right">
                     <ul class="menu-icons-list">
                         <li class="menu-icons shopping-cart">
-                            <a href="#">
+                            <a href="<?= Yii::$app->user->isGuest?'#':'/u/'.Yii::$app->user->identity->username.'/notifications'?>">
                                 <i class="menu-icons-style radius-x icon-bell"></i>
-                                <span class="badge">0</span>
+                                <span class="badge"><?= Yii::$app->user->isGuest?'0':count(Yii::$app->user->identity->notifications)?></span>
                             </a>
                         </li>
                         <li class="menu-icons">
@@ -120,7 +120,7 @@ use yii\helpers\Url;
                         <?php } else {?>
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle navbar-brand" data-toggle="dropdown">
-                                    <img src="<?= Url::toRoute('@web/img/default_avatar.png')?>" class="default-logo img-responsive rounded-x tooltips white-tooltip"
+                                    <img src="<?= Yii::$app->user->identity->getAvatar()?>" class="default-logo img-responsive rounded-x tooltips white-tooltip"
                                     title="<?= Yii::$app->user->identity->username ?>" data-placement="right">
                                     <span class="visible-sm visible-xs">
                                         <i class="fa  fa-user"></i>
@@ -129,8 +129,8 @@ use yii\helpers\Url;
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="/u/<?= Yii::$app->user->identity->username ?>/favourites">Profile</a></li>
-                                    <li><a href="#">Notifications</a></li>
-                                    <li><a href="#">Setting</a></li>
+                                    <li><a href="/u/<?= Yii::$app->user->identity->username ?>/notifications">Notifications</a></li>
+                                    <li><a href="/settings/change_password">Setting</a></li>
                                     <li><a href="<?= Url::toRoute('auth/logout')?>" data-method="post">Logout</a></li>
                                 </ul>
                             </li>
