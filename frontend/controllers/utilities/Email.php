@@ -14,13 +14,24 @@ use yii\base\Controller;
 class Email extends Controller
 {
     public static function signup($model){
-    return Yii::$app->mailer->compose(
-        ['html' => 'signup-html', 'text' => 'signup-text'],
-        ['user' => $model]
-    )
-    ->setFrom(Yii::$app->params['adminEmail'])
-    ->setTo($model->email)
-    ->setSubject('Account Registration Confirmation')
-    ->send();
+        return Yii::$app->mailer->compose(
+            ['html' => 'signup-html', 'text' => 'signup-text'],
+            ['user' => $model]
+        )
+        ->setFrom(Yii::$app->params['adminEmail'])
+        ->setTo($model->email)
+        ->setSubject('Account Registration Confirmation')
+        ->send();
+    }
+
+    public static function forgotPassword($model){
+        return Yii::$app->mailer->compose(
+            ['html' => 'forgot-password-html', 'text' => 'forgot-password-text'],
+            ['user' => $model]
+        )
+            ->setFrom(Yii::$app->params['adminEmail'])
+            ->setTo($model->email)
+            ->setSubject('Reset Password Request')
+            ->send();
     }
 }

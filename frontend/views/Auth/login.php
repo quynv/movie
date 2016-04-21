@@ -7,6 +7,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Alert;
 
 $this->title = Yii::t('frontend/views.login','Login');
 $this->params['breadcrumbs'][] = $this->title;
@@ -18,6 +19,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <h2><?= Yii::t('frontend/views.login', 'Sign In')?></h2>
         <p><?= Yii::t('frontend/views.login', 'Don\'t Have Account? Click {link} to registration.',['link' => Html::a(Yii::t('frontend/views.login','Sign up'), Url::toRoute('auth/signup'), ['class' => 'color-green'])])?></p>
     </div>
+    <?php
+    if(Yii::$app->session->getAllFlashes()) {
+        foreach (Yii::$app->session->getAllFlashes() as $name => $value) {
+            echo Alert::widget([
+                'options' => [
+                    'class' => 'alert-' . $name,
+                ],
+                'body' => $value,
+            ]);
+        }
+    }
+    ?>
     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
     <?= $form->field($model, 'email',[
         'template' => '
@@ -53,12 +66,22 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <?php ActiveForm::end(); ?>
+    <br>
+    <a href="<?= Url::toRoute(['auth/forgot_password'])?>">Forgot password?</a>
     <hr>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>" class="btn btn-block btn-facebook-inversed rounded">
                 <i class="fa fa-facebook"></i>
                 Facebook
+            </a>
+            <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'twitter'])?>" class="btn btn-block btn-twitter-inversed rounded">
+                <i class="fa fa-twitter"></i>
+                Twitter
+            </a>
+            <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'google'])?>" class="btn btn-block btn-googleplus-inversed rounded">
+                <i class="fa fa-google-plus"></i>
+                Google +
             </a>
         </div>
     </div>

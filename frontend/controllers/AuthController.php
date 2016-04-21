@@ -8,6 +8,8 @@
 
 namespace frontend\controllers;
 
+use frontend\models\forms\auth\ForgotPasswordForm;
+use frontend\models\forms\auth\ResetPasswordForm;
 use frontend\models\Provider;
 use Yii;
 
@@ -134,8 +136,9 @@ class AuthController extends BaseController
 
     public function actionActive_account($token)
     {
-        $user = User::findOne(['access_token' => $token]);
-        if($user) {
+
+        if(User::isAccessTokenValid($token)) {
+            $user = User::findOne(['access_token' => $token]);
             $user->status = User::STATUS_ACTIVE;
             $user->save(false);
             return $this->render('active-success');
@@ -146,6 +149,41 @@ class AuthController extends BaseController
             }
             return $this->render('active-fail', ['model' => $model]);
         }
+    }
+
+    public function actionForgot_password()
+    {
+        $model = new ForgotPasswordForm();
+        if ($model->load(Yii::$app->request->post()))
+        {
+            if($model->sendMail())
+            {
+                \Yii::$app->session->setFlash('success','Please check your email address to reset password!');
+            }
+        }
+
+        return $this->render('forgot-password', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionReset_password($token)
+    {
+        $model = new ResetPasswordForm($token);
+
+        if(User::isAccessTokenValid($token))
+        {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', 'New password was saved.');
+                return $this->redirect('/auth/login');
+            }
+        } else {
+            Yii::$app->session->setFlash('danger', 'This link has expired.');
+        }
+
+        return $this->render('reset-password', [
+            'model' => $model,
+        ]);
     }
 
     public function OAuthCallback($client)
@@ -174,11 +212,10 @@ class AuthController extends BaseController
                         return $this->goBack();
                     }
                 } else {
-                    $password = Yii::$app->security->generateRandomString(6);
                     $user = new User([
                         'username' => strtolower(str_replace(' ', '_', $attributes['name'])),
                         'email' => $attributes['email'],
-                        'password' => $password,
+                        'password' => null,
                         'status' => User::STATUS_ACTIVE,
                         'avatar' => User::NONE_AVATAR
                     ]);

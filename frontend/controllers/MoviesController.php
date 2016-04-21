@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\User;
 use frontend\models\Favourite;
 use Yii;
 use common\models\Movie;
@@ -14,35 +15,54 @@ use yii\data\Pagination;
 class MoviesController extends BaseController
 {
     public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['recommended', 'detail', 'search', 'favourite', 'rating'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['detail', 'search'],
-                        'roles' => ['?','@'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['recommended', 'favourite', 'rating'],
-                        'roles' => ['@'],
-                    ],
+{
+    return [
+        'access' => [
+            'class' => AccessControl::className(),
+            'only' => ['recommended', 'detail', 'search', 'favourite', 'rating'],
+            'rules' => [
+                [
+                    'allow' => true,
+                    'actions' => ['detail', 'search'],
+                    'roles' => ['?','@'],
+                ],
+                [
+                    'allow' => true,
+                    'actions' => ['recommended', 'favourite', 'rating'],
+                    'roles' => ['@'],
                 ],
             ],
-        ];
-    }
+        ],
+    ];
+}
 
     function actionDetail($id)
     {
         $this->layout = "@app/views/layouts/base";
         $movie = Movie::findOne(['id' => $id]);
         $this->movie = $movie;
+        $users = User::findOne(['id' => Yii::$app->user->id])
+            ->getFollowers()
+            ->where(['not in', 'id', Rating::find()
+                    ->select('user_id')
+                    ->where(['movie_id' => $id])
+                    ->asArray()
+            ])
+            ->all();
+
+        $query = User::findOne(['id' => Yii::$app->user->id])->getFollowers()->select(['users.*', 'ratings.rating'])->innerJoinWith('ratings', false)->where(['movie_id' => $id])->asArray();
+
+        $pagination = new Pagination(['totalCount' => $query->count()]);
+        $followers = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
         if(isset($movie)) {
             return $this->render('detail', [
                 'movie' => $movie,
+                'followers' => $followers,
+                'users' => $users,
+                'pages' => $pagination
             ]);
         } else {
             throw new NotFoundHttpException('Movie not found');

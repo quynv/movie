@@ -1,5 +1,6 @@
 <?php
 use kartik\social\FacebookPlugin;
+use yii\widgets\LinkPager;
 
 $this->title = "Detail | ".$movie->title;
 $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/rating.js',['depends' => [\frontend\assets\AppAsset::className()]]);
@@ -17,7 +18,10 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
                     <div class="tooltips oneLine heart_icon off" data-toggle="tooltip" data-placement="top" title="Add to favourite" data-movie="<?= $movie->id?>" data-value="1"> </div>
                 <?php }?>
                 <div class="oneLine num_vote"><?= count($movie->favourites)?></div>
-                <i class="tooltips icon-users fa fa-users" data-toggle="tooltip" data-placement="top" title="Ask your friend's rating"></i>
+                <?php if(!Yii::$app->user->isGuest) {?>
+                <i class="tooltips icon-users fa fa-users" data-toggle="modal" data-target="#requestModal" data-placement="top" title="Ask your friend's rating"></i>
+                <?= $this->render('//template/request-modal',['followers' => $users, 'movie' => $movie]);?>
+                <?php } ?>
             </div>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-12">
@@ -88,6 +92,8 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
     <br>
     <br>
     <br>
+    <br>
+    <br>
     <h4>Images and Videos</h4>
     <?= $this->render('//template/portfolio',[
         'videos' => $movie->getVideos(),
@@ -107,8 +113,16 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
                     <?= FacebookPlugin::widget(['type'=>FacebookPlugin::COMMENT, 'settings' => ['data-width'=>1000, 'data-numposts'=>5]]);?>
                 </div>
                 <div class="tab-pane fade" id="settings-1">
-                    <h4>Heading Sample 4</h4>
-                    <p><img alt="" class="pull-right rgt-img-margin img-width-200" src="assets/img/main/img23.jpg"> Vivamus imperdiet condimentum diam, eget placerat felis consectetur id. Donec eget orci metus, Vivamus imperdiet condimentum diam, eget placerat felis consectetur id. Donec eget orci metus, ac adipiscing nunc. Pellentesque fermentum, ante ac interdum ullamcorper. Donec eget orci metus, ac adipiscing nunc. Pellentesque fermentum, consectetur id. Donec eget orci metus, ac adipiscing nunc. <strong>Pellentesque fermentum</strong>, ante ac interdum ullamcorper. Donec eget orci metus, ac adipiscing nunc. Pellentesque fermentum, ante ac interdum ullamcorper.</p>
+                    <?php if($followers) {?>
+                        <?= $this->render('//template/followers-rating',['followers' => $followers]);?>
+                    <?php } else {?>
+                        <p>No data</p>
+                    <?php } ?>
+                    <div class="row text-center">
+                        <?= LinkPager::widget([
+                            'pagination' => $pages,
+                        ]);?>
+                    </div>
                 </div>
             </div>
         </div>

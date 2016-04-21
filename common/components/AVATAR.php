@@ -18,7 +18,8 @@ class AVATAR extends Component
         switch ($service) {
 
             case "google":
-                $url = "http://profiles.google.com/s2/photos/profile/" . $user_id . "?sz=" . $size;
+                if(!is_numeric($size)) $size = 240;
+                $url = "http://res.cloudinary.com/demo/image/gplus/w_".$size."/".$user_id.".jpg";
                 break;
             case "facebook":
                 // available sizes: square (50x50), small (50xH) , normal (100xH), large (200xH)
@@ -42,23 +43,12 @@ class AVATAR extends Component
                 $url = "https://graph.facebook.com/" . $user_id . "/picture?type=" . $size_param;
                 break;
             case "twitter":
-                // available sizes: bigger (73x73), normal (48x48), mini (24x24), no param will give you full size
-                $size_param = null;
-                if (is_numeric($size)) {
-                    if ($size >= 73) {
-                        $size_param = 'bigger';
-                    };
-                    if ($size >= 48 && $size < 73) {
-                        $size_param = 'normal';
-                    };
-                    if ($size < 48) {
-                        $size_param = 'mini';
-                    };
-                } else {
-                    $size_param = 'normal';
-                }
-
-                $url = "http://api.twitter.com/1/users/profile_image?screen_name=" . $user_id . "&size=" . $size_param;
+                if(!is_numeric($size)) $size = 240;
+                $url = "http://res.cloudinary.com/demo/image/twitter/w_".$size."/".$user_id.".jpg";
+                break;
+            case "gravatar":
+                if(!is_numeric($size)) $size = 240;
+                $url = "https://s.gravatar.com/avatar/".$user_id."?s=".$size;
                 break;
         }
         return $url;

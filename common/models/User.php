@@ -3,6 +3,7 @@ namespace common\models;
 
 use frontend\models\Follow;
 use frontend\models\Friend;
+use frontend\models\Notification;
 use Yii;
 use yii\base\NotSupportedException;
 use \yii\db\Expression;
@@ -34,6 +35,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_NOT_ACTIVE = 10;
     const STATUS_ACTIVE = 100;
     const NONE_AVATAR = 0;
+    const GRAVATAR = -1;
     /**
      * @inheritdoc
      */
@@ -119,10 +121,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByAccessToken($token)
     {
-        if (!static::isAccessTokenValid($token)) {
-            return null;
-        }
-
         return static::findOne([
             'access_token' => $token
         ]);
@@ -140,7 +138,8 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = static::findByAccessToken($token)->expire_date;
+        $user = static::findByAccessToken($token);
+        $timestamp = $user->expire_date;
         $expire = Yii::$app->params['user.tokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -220,15 +219,17 @@ class User extends ActiveRecord implements IdentityInterface
     {
         if($this->avatar == self::NONE_AVATAR) {
             return Url::toRoute('@web/img/default_avatar.png');
+        } else if($this->avatar == self::GRAVATAR) {
+            return Yii::$app->avatar->getAvatar('gravatar', md5($this->email), $size);
         } else {
             $provider = Provider::findOne(['id' => $this->avatar]);
             return Yii::$app->avatar->getAvatar(strtolower($provider->provider), $provider->provider_id, $size);
         }
     }
 
-    public function getProvider()
+    public function getProviders()
     {
-        return $this->hasMany(Provider::className(), ['id' => 'user_id']);
+        return $this->hasMany(Provider::className(), ['user_id' => 'id']);
     }
 
     public function getRatings()
@@ -266,5 +267,10 @@ class User extends ActiveRecord implements IdentityInterface
         $follow = Follow::findOne(['user_id' => Yii::$app->user->id, 'followed' => $this->id]);
         if($follow) return true;
         return false;
+    }
+
+    public function getNotifications()
+    {
+        return $this->hasMany(Notification::className(), ['user_id' => 'id']);
     }
 }

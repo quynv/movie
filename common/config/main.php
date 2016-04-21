@@ -1,5 +1,7 @@
 <?php
 require(__DIR__ . '/facebook.php');
+require(__DIR__ . '/twitter.php');
+require(__DIR__ . '/google.php');
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
@@ -17,8 +19,18 @@ return [
             'clients' => [
                 'facebook' => [
                     'class' => 'yii\authclient\clients\Facebook',
-                    'clientId' => $APP_ID,
-                    'clientSecret' => $APP_SECRET,
+                    'clientId' => $FACEBOOK_APP_ID,
+                    'clientSecret' => $FACEBOOK_APP_SECRET,
+                ],
+                'google' => [
+                    'class' => 'yii\authclient\clients\GoogleOAuth',
+                    'clientId' => $GOOGLE_APP_ID,
+                    'clientSecret' => $GOOGLE_APP_SECRET,
+                ],
+                'twitter' => [
+                    'class' => 'yii\authclient\clients\Twitter',
+                    'consumerKey' => $TWITTER_APP_KEY,
+                    'consumerSecret' => $TWITTER_APP_SECRET,
                 ],
             ],
         ],
@@ -58,8 +70,8 @@ return [
 
             // the global settings for the Facebook plugins widget
             'facebook' => [
-                'appId' => $APP_ID,
-                'secret' => $APP_SECRET,
+                'appId' => $FACEBOOK_APP_ID,
+                'secret' => $FACEBOOK_APP_SECRET,
             ],
 
             // the global settings for the Google+ Plugins widget

@@ -121,4 +121,26 @@ class UsersController extends BaseController
             'pages' => $pagination
         ]);
     }
+
+    public function actionNotifications($username)
+    {
+        $user = $this->checkExist($username);
+        if($user->id != \Yii::$app->user->id)
+        {
+            throw new NotFoundHttpException("Page not found");
+        }
+        $query = $user->getNotifications();
+        $count = $query->count();
+
+        $pagination = new Pagination(['totalCount' => $count]);
+        $pagination->route = '/u/'.$username.'/notifications';
+        $notifications = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('notifications', [
+            'user' => $user,
+            'notifications' => $notifications,
+            'pages' => $pagination
+        ]);
+    }
 }

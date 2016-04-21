@@ -21,6 +21,8 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/follow.js',['depends' 
         <li><i class="fa fa-group"></i><a href="/u/<?= $user->username?>/following"><?= count($user->following)?> Followings</a></li>
         <li><i class="fa fa-group"></i><a href="/u/<?= $user->username?>/followers"><?= count($user->followers)?> Followers</a></li>
         <li><i class="fa  fa-film"></i><a href="/u/<?= $user->username?>/ratings">Rated <?= count($user->ratings)?> movies</a></li>
-        <li><i class="fa fa-bell"></i><a href="/u/<?= $user->username?>/notifications">12 Notifications</a></li>
+        <?php if(Yii::$app->user->id==$user->id) {?>
+        <li><i class="fa fa-bell"></i><a href="/u/<?= $user->username?>/notifications"><?= count($user->notifications)?> Notifications</a></li>
+        <?php } ?>
     </ul>
 </div>
