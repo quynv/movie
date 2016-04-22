@@ -2,7 +2,9 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+use yii\helpers\Url;
+
+$this->title = 'Admin Dashboard';
 ?>
 <div class="site-index">
 
@@ -23,7 +25,7 @@ $this->title = 'My Yii Application';
                     </div>
                 </div>
             </a>
-            <a class="col-md-6 col-sm-6 col-lg-3" href="#">
+            <a class="col-md-6 col-sm-6 col-lg-3" href="<?= Url::to(['users/'])?>">
                 <div class="mini-stat clearfix bx-shadow">
                     <span class="mini-stat-icon bg-success"><i class="glyphicon glyphicon-user"></i></span>
                     <div class="mini-stat-info text-right text-muted">

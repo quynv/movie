@@ -57,10 +57,6 @@ class AuthController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
-
-    }
 
     public function actionRegister()
     {
