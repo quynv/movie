@@ -33,8 +33,8 @@ use yii\helpers\Url;
                 <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="glyphicon glyphicon-user"></i><span> Users </span><span class="pull-right"><i class="md md-add"></i></span></a>
                     <ul class="list-unstyled">
-                        <li><a href="#">List users</a></li>
-                        <li><a href="#">List admins</a></li>
+                        <li><a href="<?= Url::to(['users/'])?>">List users</a></li>
+                        <li><a href="<?= Url::to(['admins/'])?>">List admins</a></li>
                         <li><a href="<?= Url::to(['auth/register'])?>">Add an admin</a></li>
                     </ul>
                 </li>

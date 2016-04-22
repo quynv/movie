@@ -38,8 +38,7 @@ class Admin extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'email', 'password', 'role', 'created_at', 'updated_at'], 'required'],
-            [['role', 'created_at', 'updated_at'], 'integer'],
+            [['id','role', 'created_at', 'updated_at'], 'integer'],
             [['username'], 'string', 'max' => 50],
             [['email', 'password'], 'string', 'max' => 255]
         ];
@@ -189,5 +188,14 @@ class Admin extends ActiveRecord implements IdentityInterface
         }
 
         return 'Administrator';
+    }
+
+    public static function getRoles()
+    {
+        return [
+            self::OWNER => 'Owner',
+            self::ADMIN => 'Administrator',
+            self::BANNER => 'Banner'
+        ];
     }
 }

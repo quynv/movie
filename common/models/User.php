@@ -61,7 +61,11 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED, self::STATUS_NOT_ACTIVE]],
+            [['id','avatar', 'expire_date', 'status', 'last_login', 'created_at', 'updated_at'], 'integer'],
+            [['email', 'username', 'password', 'access_token', 'auth_key'], 'string', 'max' => 255],
+            [['email'], 'unique'],
+            [['username'], 'unique']
         ];
     }
 
@@ -213,6 +217,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->access_token = Yii::$app->security->generateRandomString();
         $this->expire_date = time();
+    }
+
+    public static function getStatus()
+    {
+        return [
+          self::STATUS_ACTIVE => 'Active',
+          self::STATUS_NOT_ACTIVE => 'Inactive',
+          self::STATUS_DELETED => 'Deleted'
+        ];
     }
 
     public function getAvatar($size = 53)
