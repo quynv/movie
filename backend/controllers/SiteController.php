@@ -1,10 +1,15 @@
 <?php
 namespace backend\controllers;
 
+use common\models\Actor;
+use common\models\Company;
+use common\models\Director;
+use common\models\Genre;
+use common\models\Movie;
+use common\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use common\models\LoginForm;
 use yii\filters\VerbFilter;
 
 /**
@@ -55,29 +60,19 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
-    }
-
-    public function actionLogin()
-    {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
+        $movies = Movie::find()->count();
+        $users = User::find()->count();
+        $genres = Genre::find()->count();
+        $actors = Actor::find()->count();
+        $directors = Director::find()->count();
+        $companies = Company::find()->count();
+        return $this->render('index',[
+            'movies' => $movies,
+            'users' => $users,
+            'genres' => $genres,
+            'actors' => $actors,
+            'directors' => $directors,
+            'companies' => $companies
+        ]);
     }
 }

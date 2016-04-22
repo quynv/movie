@@ -1,8 +1,9 @@
 <?php
-namespace common\models;
+namespace backend\models\forms;
 
 use Yii;
 use yii\base\Model;
+use backend\models\Admin;
 
 /**
  * Login form
@@ -11,7 +12,6 @@ class LoginForm extends Model
 {
     public $email;
     public $password;
-    public $rememberMe = true;
 
     private $_user;
 
@@ -26,8 +26,6 @@ class LoginForm extends Model
             [['email', 'password'], 'required'],
             // email must validated
             ['email','email'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
@@ -58,21 +56,21 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getUser(), 0);
         } else {
             return false;
         }
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds user by [[email]]
      *
-     * @return User|null
+     * @return Admin|null
      */
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByEmail($this->email);
+            $this->_user = Admin::findByEmail($this->email);
         }
 
         return $this->_user;
