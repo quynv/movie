@@ -79,4 +79,9 @@ class Actor extends ActiveRecord
     {
         return self::find()->where(['cast_id' => $this->cast_id])->count();
     }
+
+    public function getCast()
+    {
+        return $this->hasOne(Cast::className(), ['id' => 'cast_id']);
+    }
 }

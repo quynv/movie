@@ -16,7 +16,7 @@ $this->title = 'Admin Dashboard';
 
     <div class="body-content">
         <div class="row">
-            <a class="col-md-6 col-sm-6 col-lg-3" href="#">
+            <a class="col-md-6 col-sm-6 col-lg-3" href="<?= Url::to(['movies/'])?>">
                 <div class="mini-stat clearfix bx-shadow">
                     <span class="mini-stat-icon bg-success"><i class="glyphicon glyphicon-film"></i></span>
                     <div class="mini-stat-info text-right text-muted">
@@ -34,7 +34,7 @@ $this->title = 'Admin Dashboard';
                     </div>
                 </div>
             </a>
-            <a class="col-md-6 col-sm-6 col-lg-3" href="#">
+            <a class="col-md-6 col-sm-6 col-lg-3" href="<?= Url::to(['genres/'])?>">
                 <div class="mini-stat clearfix bx-shadow">
                     <span class="mini-stat-icon bg-success"><i class="glyphicon glyphicon-tag"></i></span>
                     <div class="mini-stat-info text-right text-muted">
@@ -43,7 +43,7 @@ $this->title = 'Admin Dashboard';
                     </div>
                 </div>
             </a>
-            <a class="col-md-6 col-sm-6 col-lg-3" href="#">
+            <a class="col-md-6 col-sm-6 col-lg-3" href="<?= Url::to(['actors/'])?>">
                 <div class="mini-stat clearfix bx-shadow">
                     <span class="mini-stat-icon bg-success"><i class="glyphicon glyphicon-facetime-video"></i></span>
                     <div class="mini-stat-info text-right text-muted">
@@ -52,7 +52,7 @@ $this->title = 'Admin Dashboard';
                     </div>
                 </div>
             </a>
-            <a class="col-md-6 col-sm-6 col-lg-3" href="#">
+            <a class="col-md-6 col-sm-6 col-lg-3" href="<?= Url::to(['directors/'])?>">
                 <div class="mini-stat clearfix bx-shadow">
                     <span class="mini-stat-icon bg-success"><i class="glyphicon glyphicon-bullhorn"></i></span>
                     <div class="mini-stat-info text-right text-muted">

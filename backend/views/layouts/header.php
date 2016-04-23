@@ -26,9 +26,7 @@ use yii\helpers\Url;
                     <li class="dropdown">
                         <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img src="<?= Yii::$app->user->identity->avatar?>" alt="user-img" class="img-circle">&nbsp;<?= Yii::$app->user->identity->username?></a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)"><i class="md md-face-unlock"></i> Profile</a></li>
-                            <li><a href="javascript:void(0)"><i class="md md-settings"></i> Settings</a></li>
-                            <li><a href="javascript:void(0)"><i class="md md-lock"></i> Lock screen</a></li>
+                            <li><a href="<?= Url::to(['auth/update'])?>"><i class="md md-lock"></i> Update</a></li>
                             <li><a href="<?= Url::to(['auth/logout'])?>" data-method="post"><i class="md md-settings-power"></i> Logout</a></li>
                         </ul>
                     </li>

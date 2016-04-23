@@ -8,6 +8,7 @@
 
 namespace backend\controllers;
 
+use backend\models\forms\UpdateForm;
 use Yii;
 use backend\models\forms\RegisterForm;
 use backend\models\forms\LoginForm;
@@ -90,6 +91,25 @@ class AuthController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionUpdate()
+    {
+        $model = new UpdateForm();
+        if($model->load(Yii::$app->request->post()))
+        {
+            if($model->save())
+            {
+                Yii::$app->session->setFlash('success', 'Your password updated');
+            }
+            else
+            {
+                Yii::$app->session->setFlash('danger', 'An error occurred while trying update your password.');
+            }
+        }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     public function actionLogout()
