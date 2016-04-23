@@ -37,9 +37,8 @@ class Movie extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'overview', 'poster', 'backdrop', 'runtime', 'released_at', 'tmdb_id', 'imdb_id'], 'required'],
             [['overview'], 'string'],
-            [['runtime', 'tmdb_id'], 'integer'],
+            [['id', 'runtime', 'tmdb_id'], 'integer'],
             [['released_at'], 'safe'],
             [['title'], 'string', 'max' => 400],
             [['poster', 'backdrop'], 'string', 'max' => 255],

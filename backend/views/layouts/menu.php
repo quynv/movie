@@ -13,10 +13,8 @@ use yii\helpers\Url;
                 <div class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><?= Yii::$app->user->identity->username ?><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0)"><i class="md md-face-unlock"></i> Profile<div class="ripple-wrapper"></div></a></li>
-                        <li><a href="javascript:void(0)"><i class="md md-settings"></i> Settings</a></li>
-                        <li><a href="javascript:void(0)"><i class="md md-lock"></i> Lock screen</a></li>
-                        <li><a href="javascript:void(0)"><i class="md md-settings-power"></i> Logout</a></li>
+                        <li><a href="<?= Url::to(['auth/update'])?>"><i class="md md-lock"></i> Update</a></li>
+                        <li><a href="<?= Url::to(['auth/logout'])?>" data-method="post"><i class="md md-settings-power"></i> Logout</a></li>
                     </ul>
                 </div>
 
@@ -31,7 +29,7 @@ use yii\helpers\Url;
                 </li>
 
                 <li class="has_sub">
-                    <a href="#" class="waves-effect"><i class="glyphicon glyphicon-user"></i><span> Users </span><span class="pull-right"><i class="md md-add"></i></span></a>
+                    <a href="<?= Url::to(['users/'])?>" class="waves-effect"><i class="glyphicon glyphicon-user"></i><span> Users </span><span class="pull-right"><i class="md md-add"></i></span></a>
                     <ul class="list-unstyled">
                         <li><a href="<?= Url::to(['users/'])?>">List users</a></li>
                         <li><a href="<?= Url::to(['admins/'])?>">List admins</a></li>
@@ -39,30 +37,32 @@ use yii\helpers\Url;
                     </ul>
                 </li>
                 <li class="has_sub">
-                    <a href="#" class="waves-effect"><i class="glyphicon glyphicon-film"></i> <span> Movies </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                    <a href="<?= Url::to(['movies/'])?>" class="waves-effect"><i class="glyphicon glyphicon-film"></i> <span> Movies </span> <span class="pull-right"><i class="md md-add"></i></span></a>
                     <ul class="list-unstyled">
-                        <li><a href="#">List Movies</a></li>
-                        <li><a href="#">Add movie</a></li>
-                        <li><a href="#">Check data from tmdb</a></li>
+                        <li><a href="<?= Url::to(['movies/'])?>">List Movies</a></li>
+                        <li><a href="<?= Url::to(['movies/new'])?>">Add movie</a></li>
                     </ul>
                 </li>
 
                 <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="glyphicon glyphicon-facetime-video"></i><span> Casts </span><span class="pull-right"><i class="md md-add"></i></span></a>
                     <ul class="list-unstyled">
-                        <li><a href="#">Actors</a></li>
-                        <li><a href="#">Directors</a></li>
+                        <li><a href="<?= Url::to(['actors/'])?>">Actors</a></li>
+                        <li><a href="<?= Url::to(['directors/'])?>">Directors</a></li>
                     </ul>
                 </li>
 
                 <li>
-                    <a href="#" class="waves-effect"><i class="glyphicon glyphicon-tag"></i> <span> Genres </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                    <a href="<?= Url::to(['genres/'])?>" class="waves-effect"><i class="glyphicon glyphicon-tag"></i> <span> Genres </span> <span class="pull-right"><i class="md md-add"></i></span></a>
                 </li>
                 <li>
-                    <a href="#" class="waves-effect"><i class="glyphicon glyphicon-plus"></i> <span> Requested movies </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                    <a href="<?= Url::to(['contributions/'])?>" class="waves-effect"><i class="glyphicon glyphicon-plus"></i> <span> Requested movies </span> <span class="pull-right"><i class="md md-add"></i></span></a>
                 </li>
                 <li>
-                    <a href="#" class="waves-effect"><i class="glyphicon glyphicon-envelope"></i> <span> Feedback </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                    <a href="<?= Url::to(['feedback/'])?>" class="waves-effect"><i class="glyphicon glyphicon-book"></i> <span> Feedback </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                </li>
+                <li>
+                    <a href="<?= Url::to(['email/'])?>" class="waves-effect"><i class="glyphicon glyphicon-envelope"></i> <span> Send mail </span> <span class="pull-right"><i class="md md-add"></i></span></a>
                 </li>
             </ul>
             <div class="clearfix"></div>

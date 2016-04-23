@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use \yii\db\ActiveRecord;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "casts".
@@ -47,6 +48,13 @@ class Cast extends ActiveRecord
         ];
     }
 
+    public function getAvatar($size)
+    {
+        if(isset($this->poster))
+            return Yii::$app->tmdb->config['images']['base_url'].$size.$this->avatar;
+        else
+            return Url::to('@web/img/movie_default.jpg');
+    }
 
     public function getMoviesByActor()
     {

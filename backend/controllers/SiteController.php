@@ -63,8 +63,8 @@ class SiteController extends Controller
         $movies = Movie::find()->count();
         $users = User::find()->count();
         $genres = Genre::find()->count();
-        $actors = Actor::find()->count();
-        $directors = Director::find()->count();
+        $actors = Actor::find()->select(['cast_id'])->distinct()->count();
+        $directors = Director::find()->select(['cast_id'])->distinct()->count();
         $companies = Company::find()->count();
         return $this->render('index',[
             'movies' => $movies,

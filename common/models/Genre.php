@@ -26,7 +26,6 @@ class Genre extends ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
             [['id'], 'integer'],
             [['name'], 'string', 'max' => 50]
         ];

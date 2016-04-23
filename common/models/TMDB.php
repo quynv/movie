@@ -23,6 +23,19 @@ class TMDB
         return $instance;
     }
 
+    public function exportMovie()
+    {
+        $movie = new Movie();
+        $movie->title = $this->getTitle();
+        $movie->overview = $this->getOverview();
+        $movie->poster = $this->data['poster_path'];
+        $movie->backdrop = $this->data['backdrop_path'];
+        $movie->released_at = $this->getReleaseDate();
+        $movie->imdb_id = $this->getImdb_id();
+        $movie->tmdb_id = $this->getTmdb_id();
+        return $movie;
+    }
+
     public static function getUpcoming($page = 1)
     {
         $movies = array();
@@ -34,9 +47,24 @@ class TMDB
         return [$results['total_pages'],$results['total_results'],$movies];
     }
 
+    public static function getMovie($id)
+    {
+        $result = Yii::$app->tmdb->getMovie($id);
+        if($result)
+        {
+            return TMDB::initWithData($result);
+        }
+        return null;
+    }
+
     public function getTmdb_id()
     {
         return $this->data['id'];
+    }
+
+    public function getImdb_id()
+    {
+        return $this->data['imdb_id'];
     }
 
     public function getTitle()
@@ -86,6 +114,47 @@ class TMDB
     public function getOverview()
     {
         return $this->data['overview'];
+    }
+
+    public function getGenres()
+    {
+        return $this->data['genres'];
+    }
+
+    public function getDirectors()
+    {
+        $results = [];
+        foreach($this->data['casts']['crew'] as $crew)
+        {
+            if($crew['job'] == 'Director')
+            {
+                $results[] = [
+                    'id' => $crew['id'],
+                    'name' => $crew['name'],
+                    'avatar' => $crew['profile_path']
+                ];
+            }
+        }
+        return $results;
+    }
+
+    public function getCasts()
+    {
+        $results = [];
+        foreach($this->data['casts']['cast'] as $cast)
+        {
+            $results[] = [
+                'id' => $cast['id'],
+                'name' => $cast['name'],
+                'avatar' => $cast['profile_path']
+            ];
+        }
+        return $results;
+    }
+
+    public function getCompanies()
+    {
+        return $this->data['production_companies'];
     }
 
 }

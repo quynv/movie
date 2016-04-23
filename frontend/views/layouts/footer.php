@@ -1,5 +1,6 @@
 <?php
 use kartik\social\FacebookPlugin;
+use yii\helpers\Url;
 ?>
 <!--=== Footer ===-->
 <div id="footer-v6" class="footer-v6">
@@ -15,20 +16,13 @@ use kartik\social\FacebookPlugin;
 
                 <!-- Recent News -->
                 <div class="col-md-3 sm-margin-bottom-40">
-                    <div class="heading-footer"><h2>Recent News</h2></div>
-                    <ul class="list-unstyled link-news">
-                        <li>
-                            <a href="#">Apple Conference</a>
-                            <small>12 July, 2014</small>
-                        </li>
-                        <li>
-                            <a href="#">Bootstrap Update</a>
-                            <small>12 July, 2014</small>
-                        </li>
-                        <li>
-                            <a href="#">Themeforest Templates</a>
-                            <small>12 July, 2014</small>
-                        </li>
+                    <div class="heading-footer"><h2>Useful Links</h2></div>
+                    <ul class="list-unstyled footer-link-list">
+                        <li><a href="<?= Url::to('/movies/upcoming')?>">Coming soon</a></li>
+                        <li><a href="<?= Url::to('/recommended')?>">Recommended</a></li>
+                        <li><a href="<?= Url::to('/actors/all')?>">Actors</a></li>
+                        <li><a href="<?= Url::to('/directors/all')?>">Directors</a></li>
+                        <li><a href="<?= Url::to('/search')?>">Search</a></li>
                     </ul>
                 </div>
                 <!-- End Recent News -->
@@ -37,11 +31,8 @@ use kartik\social\FacebookPlugin;
                 <div class="col-md-3 sm-margin-bottom-40">
                     <div class="heading-footer"><h2>Useful Links</h2></div>
                     <ul class="list-unstyled footer-link-list">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Portfolio</a></li>
-                        <li><a href="#">Latest jobs</a></li>
-                        <li><a href="#">Community</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="<?= Url::to('/contributions')?>">Contribution</a></li>
+                        <li><a href="<?= Url::to('/feedback')?>">Feedback</a></li>
                     </ul>
                 </div>
                 <!-- End Useful Links -->
@@ -52,8 +43,8 @@ use kartik\social\FacebookPlugin;
                     <ul class="list-unstyled contacts">
                         <li>
                             <i class="radius-3x fa fa-map-marker"></i>
-                            795 Folsom Ave, Suite 600,
-                            San Francisco, CA 94107
+                            1 Dai Co Viet street, Hai Ba Trung District,
+                            Ha Noi
                         </li>
                         <li>
                             <i class="radius-3x fa fa-phone"></i>
@@ -62,8 +53,7 @@ use kartik\social\FacebookPlugin;
                         </li>
                         <li>
                             <i class="radius-3x fa fa-globe"></i>
-                            <a href="#">toronto@gmail.com</a><br>
-                            <a href="#">www.toronto.com</a>
+                            <a href="#">quytnhanam@gmail.com</a><br>
                         </li>
                     </ul>
                 </div>
@@ -78,10 +68,6 @@ use kartik\social\FacebookPlugin;
                 <div class="col-md-8 sm-margon-bottom-10">
                     <ul class="list-inline terms-menu">
                         <li class="silver">Copyright � 2014 - All Rights Reserved</li>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Privacy and Policy</a></li>
-                        <li><a href="#">License</a></li>
-                        <li><a href="#">Support</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
