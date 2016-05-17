@@ -44,7 +44,12 @@ $this->title = 'DashBoard | Administrators';
                             $value = Html::activeDropDownList($model, 'role', Admin::getRoles(),['class'=>'form-control change-role', 'data-user' => $model->id,'prompt' => 'Select role']);
                             return $value;
                         }
-                    ]
+                    ],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'header' => 'Action',
+                        'template' => '{delete}{link}',
+                    ],
                 ],
                 'tableOptions' =>['class' => 'table table-striped table-bordered'],
             ]);?>

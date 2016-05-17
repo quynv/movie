@@ -3,7 +3,9 @@
 /* @var $this yii\web\View */
 use \yii\widgets\LinkPager;
 
-$this->title = 'Actors | All';
+$this->registerCssFile(Yii::$app->urlManager->baseUrl.'/css/pages/profile.css',['depends' => [\frontend\assets\AppAsset::className()]]);
+
+$this->title = 'Users | All';
 ?>
 <div class="site-index">
     <div class="row">
@@ -20,15 +22,13 @@ $this->title = 'Actors | All';
             </form>
         </div>
     </div>
-    <div class="row">
-        <div class="blog_masonry_3col">
-            <div class="container-fluid content grid-boxes">
-                <?php foreach($actors as $actor) { ?>
-                    <?= $this->render('//template/actor',['cast' => $actor]);?>
-                <?php } ?>
-            </div>
+    <div class="row content profile">
+        <div class="container profile-body margin-bottom-20">
+            <?php foreach($users as $user) { ?>
+                <?= $this->render('//template/user',['user' => $user]);?>
+            <?php } ?>
         </div>
-        <div class="text-center">
+        <div class="row text-center">
             <?= LinkPager::widget([
                 'pagination' => $pages,
             ]);?>

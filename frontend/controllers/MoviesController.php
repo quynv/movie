@@ -41,21 +41,26 @@ class MoviesController extends BaseController
         $this->layout = "@app/views/layouts/base";
         $movie = Movie::findOne(['id' => $id]);
         $this->movie = $movie;
-        $users = User::findOne(['id' => Yii::$app->user->id])
-            ->getFollowers()
-            ->where(['not in', 'id', Rating::find()
+        $users = null;
+        $query = null;
+        $followers = null;
+        $pagination = null;
+        if(!Yii::$app->user->isGuest) {
+            $users = User::findOne(['id' => Yii::$app->user->id])
+                ->getFollowers()
+                ->where(['not in', 'id', Rating::find()
                     ->select('user_id')
                     ->where(['movie_id' => $id])
                     ->asArray()
-            ])
-            ->all();
+                ])
+                ->all();
+            $query = User::findOne(['id' => Yii::$app->user->id, 'status' => User::STATUS_ACTIVE])->getFollowers()->select(['users.*', 'ratings.rating'])->innerJoinWith('ratings', false)->where(['movie_id' => $id])->asArray();
+            $pagination = new Pagination(['totalCount' => $query->count()]);
+            $followers = $query->offset($pagination->offset)
+                ->limit($pagination->limit)
+                ->all();
+        }
 
-        $query = User::findOne(['id' => Yii::$app->user->id])->getFollowers()->select(['users.*', 'ratings.rating'])->innerJoinWith('ratings', false)->where(['movie_id' => $id])->asArray();
-
-        $pagination = new Pagination(['totalCount' => $query->count()]);
-        $followers = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
 
         if(isset($movie)) {
             return $this->render('detail', [

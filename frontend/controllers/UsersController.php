@@ -40,6 +40,24 @@ class UsersController extends BaseController
         ];
     }
 
+    public function actionIndex()
+    {
+        $query = User::find();
+        $text = \Yii::$app->getRequest()->getQueryParam('keyword');
+        if($text) {
+            $query->andFilterWhere(['like', 'username', $text]);
+        }
+        $pagination = new Pagination(['totalCount' => $query->count()]);
+
+        $users = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return $this->render('index', [
+            'users' => $users,
+            'pages' => $pagination
+        ]);
+    }
+
     private function checkExist($username)
     {
         $user = User::findOne(['username' => $username]);
@@ -121,7 +139,6 @@ class UsersController extends BaseController
             'pages' => $pagination
         ]);
     }
-
     public function actionNotifications($username)
     {
         $user = $this->checkExist($username);

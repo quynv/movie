@@ -13,7 +13,7 @@ use yii\helpers\Url;
                 <div class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><?= Yii::$app->user->identity->username ?><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="<?= Url::to(['auth/update'])?>"><i class="md md-lock"></i> Update</a></li>
+                        <li><a href="<?= Url::to(['auth/update'])?>"><i class="md md-lock"></i> Settings</a></li>
                         <li><a href="<?= Url::to(['auth/logout'])?>" data-method="post"><i class="md md-settings-power"></i> Logout</a></li>
                     </ul>
                 </div>
@@ -34,6 +34,7 @@ use yii\helpers\Url;
                         <li><a href="<?= Url::to(['users/'])?>">List users</a></li>
                         <li><a href="<?= Url::to(['admins/'])?>">List admins</a></li>
                         <li><a href="<?= Url::to(['auth/register'])?>">Add an admin</a></li>
+                        <li><a href="<?= Url::to(['admins/generate_password'])?>">Generate password</a></li>
                     </ul>
                 </li>
                 <li class="has_sub">

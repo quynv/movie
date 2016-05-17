@@ -9,6 +9,7 @@
 namespace backend\controllers;
 
 use backend\models\AdminSearch;
+use backend\models\forms\PasswordForm;
 use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;
@@ -33,10 +34,10 @@ class AdminsController extends Controller
                 'ruleConfig' => [
                     'class' => AccessRule::className(),
                 ],
-                'only' => ['index', 'change_role'],
+                'only' => ['index', 'change_role', 'delete', 'generate_password'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'change_role'],
+                        'actions' => ['index', 'change_role', 'delete', 'generate_password'],
                         'allow' => true,
                         'roles' => [
                             Admin::OWNER
@@ -84,5 +85,39 @@ class AdminsController extends Controller
         } else {
             throw new NotFoundHttpException("Page not found.");
         }
+    }
+
+    public function actionGenerate_password()
+    {
+        $model = new PasswordForm();
+        $new = null;
+        if($model->load(Yii::$app->request->post()))
+        {
+            $new = $model->generate();
+            if($new)
+            {
+                Yii::$app->session->setFlash('success', 'This Admin\'password has been updated successfully.');
+            } else {
+                Yii::$app->session->setFlash('danger', 'An error occurred while trying updated record.');
+            }
+        }
+        return $this->render('generate',[
+            'new' => $new,
+            'model' => $model
+        ]);
+    }
+
+    public function actionDelete($id)
+    {
+        $admin = Admin::findOne(['id' => $id]);
+        if($admin->role!= Admin::OWNER&&$admin->delete())
+        {
+            Yii::$app->session->setFlash('success', 'This administrator has been deleted successfully.');
+        }
+        else
+        {
+            Yii::$app->session->setFlash('danger', 'An error occurred while trying delete this administrator.');
+        }
+        $this->redirect(['admins/']);
     }
 }

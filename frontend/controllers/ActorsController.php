@@ -46,6 +46,11 @@ class ActorsController extends BaseController
     {
         $this->layout = "@app/views/layouts/base";
         $query = Actor::find()->select(['cast_id'])->distinct();
+        $text = \Yii::$app->getRequest()->getQueryParam('keyword');
+        if($text) {
+            $query->joinWith(['cast']);
+            $query->andFilterWhere(['like', 'casts.name', $text]);
+        }
         $pagination = new Pagination(['totalCount' => $query->count()]);
 
         $actors = $query->offset($pagination->offset)
