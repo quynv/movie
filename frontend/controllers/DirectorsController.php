@@ -47,6 +47,11 @@ class DirectorsController extends BaseController
     {
         $this->layout = "@app/views/layouts/base";
         $query = Director::find()->select(['cast_id'])->distinct();
+        $text = \Yii::$app->getRequest()->getQueryParam('keyword');
+        if($text) {
+            $query->joinWith(['cast']);
+            $query->andFilterWhere(['like', 'casts.name', $text]);
+        }
         $pagination = new Pagination(['totalCount' => $query->count()]);
 
         $directors = $query->offset($pagination->offset)

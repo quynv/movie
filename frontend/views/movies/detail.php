@@ -58,7 +58,7 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
             <p>
                 <strong><?= Yii::t('frontend/views.detail','Directors:')?></strong>
                 <?php foreach($movie->directors as $director){ ?>
-                    <a href="#" class="tooltips-image" data-placement="bottom">
+                    <a href="/directors/<?= $director->id.'-'.strtolower(urlencode($director->name))?>" class="tooltips-image" data-placement="bottom">
                         <?= $director['name']?>,
                     </a>
                 <?php } ?>
@@ -119,9 +119,9 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
                         <p>No data</p>
                     <?php } ?>
                     <div class="row text-center">
-                        <?= LinkPager::widget([
+                        <?= $pages != null? LinkPager::widget([
                             'pagination' => $pages,
-                        ]);?>
+                        ]):'';?>
                     </div>
                 </div>
             </div>

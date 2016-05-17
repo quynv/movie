@@ -93,17 +93,37 @@ use yii\helpers\Url;
                             </ul>
                         </li>
                         <!-- End Shortcodes -->
-
                         <li class="dropdown">
-                            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/actors/all')?>">
-                                Actors
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                                More <i class="fa  fa-sort-desc"></i>
                             </a>
-                        </li>
-
-                        <li class="dropdown">
-                            <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/directors/all')?>">
-                                Directors
-                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/actors/all')?>">
+                                        Actors
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/directors/all')?>">
+                                        Directors
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/users')?>">
+                                        Users
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/feedback')?>">
+                                        Feedback
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= Yii::$app->urlManager->createAbsoluteUrl('/contributions')?>">
+                                        Contribution
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <?php if(Yii::$app->user->isGuest) { ?>
