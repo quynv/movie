@@ -5,7 +5,7 @@ $this->title = $user->username." | ratings";
 ?>
 <div class="container content profile">
     <div class="row">
-        <?= $this->render('//template/user-profile',['user' => $user]);?>
+        <?= $this->render('//template/user-profile',['user' => $user, 'type' => 'ratings']);?>
     </div>
     <div class="row profile-body margin-bottom-20">
         <?= $this->render('//template/user-rated',['movies' => $movies, 'user' => $user]);?>

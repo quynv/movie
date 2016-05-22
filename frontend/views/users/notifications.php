@@ -5,7 +5,7 @@ $this->title = $user->username." | notifications"
 ?>
 <div class="container content profile">
     <div class="row">
-        <?= $this->render('//template/user-profile',['user' => $user]);?>
+        <?= $this->render('//template/user-profile',['user' => $user, 'type' => 'notification']);?>
     </div>
     <div class="row profile-body margin-bottom-20">
         <ul class="list-unstyled">

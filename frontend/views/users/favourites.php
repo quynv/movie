@@ -6,7 +6,7 @@ $this->title = $user->username." | favourites"
 ?>
 <div class="container content profile">
     <div class="row">
-        <?= $this->render('//template/user-profile',['user' => $user]);?>
+        <?= $this->render('//template/user-profile',['user' => $user, 'type' => 'favourites']);?>
     </div>
     <div class="row profile-body margin-bottom-20">
         <div class="grid-boxes">

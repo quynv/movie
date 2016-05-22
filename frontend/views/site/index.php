@@ -4,20 +4,32 @@
 use \yii\widgets\LinkPager;
 
 $this->title = 'Movie | Index';
+
+
+
 ?>
 <div class="site-index">
     <?= $this->render('//layouts/slider',['movies' => $comings]);?>
     <div class="row space-color">
         <div class="container">
-<!--            <div class="btn-group" style="float: right">-->
-<!--                <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                    <span class="fa fa-filter"></span> Filter <span class="caret"></span>-->
-<!--                </button>-->
-<!--                <ul class="dropdown-menu custom-dropdown-filter">-->
-<!--                    <li><a href="#">By title</a></li>-->
-<!--                    <li><a href="#">By Date</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
+            <div class="btn-group">
+                <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-filter"></span> Filter by Title <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu custom-dropdown-filter">
+                    <li><a href="?title=asc">Ascending</a></li>
+                    <li><a href="?title=desc">Descending</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-filter dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-filter"></span> Filter by Released Date <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu custom-dropdown-filter">
+                    <li><a href="?date=asc">Ascending</a></li>
+                    <li><a href="?date=desc">Descending</a></li>
+                </ul>
+            </div>
             <br>
         </div>
     </div>

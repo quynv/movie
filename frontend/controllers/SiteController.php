@@ -34,7 +34,27 @@ class SiteController extends BaseController
 
         list($total_pages, $total_items, $comings) = TMDB::getUpcoming();
 
-        $query = Movie::find()->orderBy('id DESC');
+        $date = \Yii::$app->getRequest()->getQueryParam('date');
+        $title = \Yii::$app->getRequest()->getQueryParam('title');
+
+        $filter = '';
+
+        if($date == 'asc' || $date == 'desc')
+        {
+            $filter .= ',released_at '.strtoupper($date);
+        }
+
+        if($title == 'asc' || $title == 'desc')
+        {
+            $filter .= ',title '.strtoupper($title);
+        }
+
+        if($filter == '')
+        {
+            $filter .= 'id DESC';
+        }
+
+        $query = Movie::find()->orderBy($filter);
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
         $pages->setPageSize(20);
@@ -48,38 +68,38 @@ class SiteController extends BaseController
         ]);
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending email.');
-            }
+//    /**
+//     * Displays contact page.
+//     *
+//     * @return mixed
+//     */
+//    public function actionContact()
+//    {
+//        $model = new ContactForm();
+//        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+//            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+//                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+//            } else {
+//                Yii::$app->session->setFlash('error', 'There was an error sending email.');
+//            }
+//
+//            return $this->refresh();
+//        } else {
+//            return $this->render('contact', [
+//                'model' => $model,
+//            ]);
+//        }
+//    }
 
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
+//    /**
+//     * Displays about page.
+//     *
+//     * @return mixed
+//     */
+//    public function actionAbout()
+//    {
+//        return $this->render('about');
+//    }
 
 //    /**
 //     * Requests password reset.

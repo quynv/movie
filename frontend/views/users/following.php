@@ -6,7 +6,7 @@ $this->title = $user->username." | following"
 ?>
 <div class="container content profile">
     <div class="row">
-        <?= $this->render('//template/user-profile',['user' => $user]);?>
+        <?= $this->render('//template/user-profile',['user' => $user, 'type' => 'following']);?>
     </div>
     <div class="row profile-body margin-bottom-20">
         <?php foreach($following as $friend) { ?>
