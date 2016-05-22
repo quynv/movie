@@ -4,6 +4,7 @@
 use \yii\widgets\LinkPager;
 
 $this->registerCssFile(Yii::$app->urlManager->baseUrl.'/css/pages/profile.css',['depends' => [\frontend\assets\AppAsset::className()]]);
+$this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/follow.js',['depends' => [\frontend\assets\AppAsset::className()]]);
 
 $this->title = 'Users | All';
 ?>
