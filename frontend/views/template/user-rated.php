@@ -14,6 +14,16 @@ use common\models\User;
                 <th>Your rating</th>
             <?php } ?>
         </tr>
+        <tr>
+            <th><form action="" method="get"><input class="form-control" name="id" placeholder="Id"></form></th>
+            <th><form action="" method="get"><input class="form-control" name="title" placeholder="Title"></form></th>
+            <?php if(Yii::$app->user->isGuest) {?><th>&nbsp;&nbsp;&nbsp;</th><?php } ?>
+            <?php if(!Yii::$app->user->isGuest && Yii::$app->user->id == $user->id) {?><th>&nbsp;&nbsp;&nbsp;</th><?php } ?>
+            <?php if(!Yii::$app->user->isGuest && Yii::$app->user->id != $user->id) {?>
+                <th>&nbsp;&nbsp;&nbsp;</th>
+                <th>&nbsp;&nbsp;&nbsp;</th>
+            <?php } ?>
+        </tr>
         </thead>
         <tbody>
         <?php foreach($movies as $movie) {?>

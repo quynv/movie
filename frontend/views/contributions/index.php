@@ -36,6 +36,7 @@ $this->title = 'Movie | Contributions';
 
             <?= $form->field($model, 'email',[
                 'template' => '
+                {label}
                 <div class="input-group margin-bottom-20">
                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                     {input}
@@ -45,6 +46,7 @@ $this->title = 'Movie | Contributions';
 
             <?= $form->field($model, 'tmdb',[
                 'template' => '
+                {label}
                 <div class="input-group margin-bottom-20">
                     <span class="input-group-addon"><i class="fa fa-film"></i></span>
                     {input}

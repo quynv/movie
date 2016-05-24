@@ -152,6 +152,32 @@ class Movie extends ActiveRecord
         return $results;
     }
 
+    public function getAverage()
+    {
+        $ratings = $this->ratings;
+        $total = 0;
+        $count = 0;
+        foreach($ratings as $rating)
+        {
+            $count += 1;
+            $total += $rating->rating;
+        }
+         return $count == 0?0:$total/$count;
+    }
+
+    public static function getTopNRatings($n)
+    {
+        $movies = static::find()->all();
+        usort($movies, function($a, $b){
+            $aver_a = $a->average;
+            $aver_b = $b->average;
+            if($aver_a == $aver_b) return 0;
+            return $aver_a > $aver_b?-1:1;
+        });
+
+        return array_slice($movies, 0, $n);
+    }
+
     public static function getUserBaseRecommends($user, $num)
     {
         $others = Rating::find()->select('user_id')->distinct()->all();

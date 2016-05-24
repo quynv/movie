@@ -193,9 +193,9 @@ class Admin extends ActiveRecord implements IdentityInterface
     public static function getRoles()
     {
         return [
-            self::OWNER => 'Owner',
+//            self::OWNER => 'Owner',
             self::ADMIN => 'Administrator',
-            self::BANNER => 'Banner'
+            self::BANNER => 'Banned'
         ];
     }
 }
