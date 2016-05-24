@@ -93,6 +93,9 @@ class MoviesController extends BaseController
         $text = Yii::$app->getRequest()->getQueryParam('keyword');
         $year = Yii::$app->getRequest()->getQueryParam('year');
         $genre = Yii::$app->getRequest()->getQueryParam('genre');
+        $director = Yii::$app->getRequest()->getQueryParam('director');
+        $company = Yii::$app->getRequest()->getQueryParam('company');
+        $actor = Yii::$app->getRequest()->getQueryParam('actor');
         $query = Movie::find();
         if($text) {
             $query->andWhere(['LIKE', 'title', $text]);
@@ -102,6 +105,15 @@ class MoviesController extends BaseController
         }
         if($genre) {
             $query->joinWith('genres')->andwhere(['genres.id' => $genre]);
+        }
+        if($director) {
+            $query->joinWith('directors')->andwhere(['LIKE', 'casts.name', $director]);
+        }
+        if($company) {
+            $query->joinWith('companies')->andwhere(['LIKE', 'companies.name', $company]);
+        }
+        if($actor) {
+            $query->joinWith('casts')->andwhere(['LIKE', 'casts.name', $actor]);
         }
 
         $pages = new Pagination(['totalCount' => $query->count()]);

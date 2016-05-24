@@ -90,6 +90,22 @@ class UsersController extends BaseController
     {
         $user = $this->checkExist($username);
         $query = Movie::find()->select(['movies.*', 'ratings.rating'])->innerJoinWith('ratings', false)->where(['user_id' => $user->id])->asArray();
+        $id = \Yii::$app->getRequest()->getQueryParam('id');
+        $title = \Yii::$app->getRequest()->getQueryParam('title');
+//        $rating = \Yii::$app->getRequest()->getQueryParam('ratings');
+        if($id)
+        {
+            $query->andWhere(['movies.id' => $id]);
+        }
+        if($title)
+        {
+            $query->andWhere(['LIKE', 'movies.title', $title]);
+        }
+//        if($rating)
+//        {
+//            $query->andWhere(['ratings.rating' => $rating]);
+//        }
+
         $count = $query->count();
 
         $pagination = new Pagination(['totalCount' => $count]);

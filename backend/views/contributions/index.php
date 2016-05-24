@@ -23,7 +23,7 @@ $this->title = 'DashBoard | Contribution';
                         'email',
                         'tmdb_id',
                         [
-                            'label' => 'Search',
+                            'label' => 'Check data on TMDB',
                             'format' => 'raw',
                             'value' => function($model)
                             {

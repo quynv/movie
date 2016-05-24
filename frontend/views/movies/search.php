@@ -28,6 +28,27 @@ $this->title = 'Movie | Search';
                         <?php }?>
                     </select>
                 </div>
+                <a role="button" data-toggle="collapse" href="#advanced_form" aria-expanded="false" aria-controls="collapseExample">
+                    Advanced search
+                </a>
+                <br>
+                <br>
+                <div id="advanced_form" class="collapse">
+                    <div class="form-group">
+                        <label class="sr-only" for="query-director">Title</label>
+                        <input type="text" name="director" class="form-control" id="query-director" placeholder="Enter director">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="query-company">Year</label>
+                        <input type="text" name="company" class="form-control" id="query-company" placeholder="Enter company">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="query-actor">Year</label>
+                        <input type="text" name="actor" class="form-control" id="query-actor" placeholder="Enter Actor">
+                    </div>
+                    <br>
+                    <br>
+                </div>
                 <div class="form-group">
                     <button type="submit" class="btn-u btn-u-green">Search</button>
                 </div>

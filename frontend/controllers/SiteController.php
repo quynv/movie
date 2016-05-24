@@ -57,12 +57,15 @@ class SiteController extends BaseController
         $query = Movie::find()->orderBy($filter);
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
-        $pages->setPageSize(20);
+        $pages->setPageSize(10);
         $movies = $query->offset($pages->offset)
             ->limit($pages->limit)
             ->all();
+
+        $ratings = Movie::getTopNRatings(5);
         return $this->render('index', [
             'comings' => $comings,
+            'ratings' => $ratings,
             'movies' => $movies,
             'pages' => $pages
         ]);

@@ -13,7 +13,7 @@ use yii\data\ActiveDataProvider;
 class AdminSearch extends Admin
 {
     public function search($params) {
-        $query = Admin::find();
+        $query = Admin::find()->andWhere(['<>', 'role', self::OWNER]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

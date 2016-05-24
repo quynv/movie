@@ -41,6 +41,7 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
                     <label for="stars-rating-1"></label>
                 </div>
             </div>
+            <p><strong><?= Yii::t('frontend/views.detail', 'Rating average:') ?>&nbsp;<?= round($movie->average, 1)?></strong>&nbsp;stars</p>
             <p><strong><?= Yii::t('frontend/views.detail', 'Released date:') ?></strong>&nbsp;<?= $movie->released_at;?></p>
             <p><strong><?= Yii::t('frontend/views.detail', 'Runtime:')?></strong>&nbsp;<?= $movie->runtime.Yii::t('frontend/views.detail', 'mins')?></p>
             <p>
@@ -105,7 +106,7 @@ $this->registerJsFile(Yii::$app->urlManager->baseUrl.'/js/favourite.js',['depend
     <div class="row">
         <div class="tab-v6 container">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#review" data-toggle="tab" aria-expanded="true">Review&nbsp;&nbsp;&nbsp;</a></li>
+                <li class="active"><a href="#review" data-toggle="tab" aria-expanded="true">Comment&nbsp;&nbsp;&nbsp;</a></li>
                 <li class=""><a href="#settings-1" data-toggle="tab" aria-expanded="false">Your friend rated it&nbsp;&nbsp;&nbsp;</a></li>
             </ul>
             <div class="tab-content">
