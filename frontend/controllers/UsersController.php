@@ -27,7 +27,7 @@ class UsersController extends BaseController
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['detail', 'search'],
+                        'actions' => ['detail', 'search', 'index', 'favourites', 'ratings', 'following', 'followers'],
                         'roles' => ['?','@'],
                     ],
                     [
@@ -163,6 +163,7 @@ class UsersController extends BaseController
             throw new NotFoundHttpException("Page not found");
         }
         $query = $user->getNotifications();
+        $query->orderBy('created_at DESC');
         $count = $query->count();
 
         $pagination = new Pagination(['totalCount' => $count]);

@@ -12,7 +12,7 @@ $this->title = 'Coming soon | '.$movie->getTitle();
     <div class="row">
         <div class="col-md-12 coming-soon">
             <h1><?= $movie->getTitle()?></h1>
-            <a class="btn-u btn-brd btn-brd-width-2 btn-brd-hover btn-u-light btn-u-block rounded-4x margin-right-10" href="<?= Url::to('/movies/upcoming')?>">All Coming Soon</a>
+            <a class="btn-u btn-brd btn-brd-width-2 btn-brd-hover btn-u-light btn-u-block rounded-4x margin-right-10" href="<?= Url::to('/movies/upcoming')?>">All Coming Soon Movies</a>
         </div>
     </div>
 

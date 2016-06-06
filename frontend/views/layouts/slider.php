@@ -20,22 +20,22 @@ use yii\helpers\Url;
 
                 <h3 class="ms-layer ms-promo-info color-light"  style="left:10px; top:170px; color: #fff!important;"
                     data-effect="bottom(20)"
-                    data-duration="500"
-                    data-delay="200"
+                    data-duration="300"
+                    data-delay="100"
                     data-ease="easeOutExpo"
                     >Coming soon</h3>
 
                 <h3 class="ms-layer ms-promo-info-in color-light"  style="left:10px; top:245px"
                     data-effect="left(100)"
-                    data-duration="600"
-                    data-delay="200"
+                    data-duration="400"
+                    data-delay="100"
                     data-ease="easeOutExpo"
                     ><span class="color-green"><?= $movie->getTitle() ?></span></h3>
 
                 <h3 class="ms-layer normal-title color-light"  style="left:10px; top:312px; color: #fff!important;"
                     data-effect="bottom(20)"
-                    data-duration="600"
-                    data-delay="200"
+                    data-duration="500"
+                    data-delay="100"
                     data-ease="easeOutExpo"
                     >Release at <?= $movie->getReleaseDate()?></h3>
 

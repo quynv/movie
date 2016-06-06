@@ -26,6 +26,7 @@ class FeedbackSearch extends Feedback
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'status' => $this->status
         ])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'content', $this->content]);

@@ -25,9 +25,9 @@ class FollowController extends BaseController
                 'only' => ['follow', 'unfollow'],
                 'rules' => [
                     [
-                        'allow' => true,
+                        'allow' => false,
                         'actions' => [],
-                        'roles' => ['?','@'],
+                        'roles' => ['?'],
                     ],
                     [
                         'allow' => true,

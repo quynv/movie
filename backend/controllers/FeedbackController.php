@@ -10,9 +10,11 @@ namespace backend\controllers;
 
 
 use backend\models\FeedbackSearch;
+use backend\models\forms\EmailForm;
 use common\models\Feedback;
 use yii\web\Controller;
 use Yii;
+use yii\web\NotFoundHttpException;
 
 class FeedbackController extends Controller
 {
@@ -20,11 +22,39 @@ class FeedbackController extends Controller
     {
         $searchModel = new FeedbackSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $model = new EmailForm();
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel
+            'searchModel' => $searchModel,
+            'model' => $model
         ]);
+    }
+
+    public function actionChange_status()
+    {
+        if (Yii::$app->request->isAjax) {
+            $success = false;
+            if (Yii::$app->request->isPost) {
+                $feedback_id = Yii::$app->request->post()['id'];
+                $status = Yii::$app->request->post()['status'];
+                $feedback = Feedback::findOne(['id' => $feedback_id]);
+                if($feedback)
+                {
+                    $feedback->status = $status;
+                    if($feedback->save(false))
+                    {
+                        $success = true;
+                    }
+                }
+                $response = [
+                    'success' => $success,
+                ];
+                \Yii::$app->response->format = 'json';
+                return $response;
+            }
+        } else {
+            throw new NotFoundHttpException("Page not found.");
+        }
     }
 
     public function actionDelete($id)

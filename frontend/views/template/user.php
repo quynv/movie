@@ -3,9 +3,6 @@
         <img class="rounded-x" src="<?= $user->getAvatar()?>" alt="">
         <div class="name-location">
             <strong><a href="/u/<?= $user->username?>/favourites"><?= $user->username?></a></strong>
-            <span><i class="fa fa-envelope"></i><?= $user->email?></span>
-            <br>
-            <br>
             <div id="friend-btn-container">
                 <?php if(Yii::$app->user->id!=$user->id) {?>
                     <input type="checkbox" class="follow-btn" <?= $user->is_following?'checked':''?> data-user="<?= $user->id?>">

@@ -165,17 +165,42 @@ class Movie extends ActiveRecord
          return $count == 0?0:$total/$count;
     }
 
+    public static function initByArray($array)
+    {
+        $result = array();
+        foreach($array as $item)
+        {
+            $result[] = self::findOne(['id' => $item['id']]);
+        }
+        return $result;
+    }
+
     public static function getTopNRatings($n)
     {
-        $movies = static::find()->all();
-        usort($movies, function($a, $b){
-            $aver_a = $a->average;
-            $aver_b = $b->average;
-            if($aver_a == $aver_b) return 0;
-            return $aver_a > $aver_b?-1:1;
-        });
+        $connection = Yii::$app->getDb();
+        $command = $connection->createCommand('
+            SELECT `movies`.`id`, AVG(`ratings`.`rating`) as average
+            FROM `movies`, `ratings`
+            WHERE `movies`.`id` = `ratings`.`movie_id`
+            GROUP BY `ratings`.`movie_id`
+            ORDER BY average DESC
+        ');
+        $movies = $command->queryAll();
+        return self::initByArray(array_slice($movies, 0, $n));
+    }
 
-        return array_slice($movies, 0, $n);
+    public static function getTopNPopulars($n)
+    {
+        $connection = Yii::$app->getDb();
+        $command = $connection->createCommand('
+            SELECT `movies`.`id`, COUNT(`ratings`.`movie_id`) as popular
+            FROM `movies`, `ratings`
+            WHERE `movies`.`id` = `ratings`.`movie_id`
+            GROUP BY `ratings`.`movie_id`
+            ORDER BY popular DESC
+        ');
+        $movies = $command->queryAll();
+        return self::initByArray(array_slice($movies, 0, $n));
     }
 
     public static function getUserBaseRecommends($user, $num)

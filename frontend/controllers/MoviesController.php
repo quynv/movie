@@ -15,26 +15,26 @@ use yii\data\Pagination;
 class MoviesController extends BaseController
 {
     public function behaviors()
-{
-    return [
-        'access' => [
-            'class' => AccessControl::className(),
-            'only' => ['recommended', 'detail', 'search', 'favourite', 'rating'],
-            'rules' => [
-                [
-                    'allow' => true,
-                    'actions' => ['detail', 'search'],
-                    'roles' => ['?','@'],
-                ],
-                [
-                    'allow' => true,
-                    'actions' => ['recommended', 'favourite', 'rating'],
-                    'roles' => ['@'],
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['recommended', 'detail', 'search', 'favourite', 'rating'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['detail', 'search'],
+                        'roles' => ['?','@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['recommended', 'favourite', 'rating'],
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
-        ],
-    ];
-}
+        ];
+    }
 
     function actionDetail($id)
     {
@@ -76,6 +76,7 @@ class MoviesController extends BaseController
 
     function actionRecommended()
     {
+        $this->required();
         $this->layout = "@app/views/layouts/base";
         $movies = Movie::getUserBaseRecommends(Yii::$app->user,40);
 
