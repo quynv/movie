@@ -82,12 +82,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php ActiveForm::end(); ?>
     <hr>
     <div class="row">
+        <div class="heading heading-v1">
+            <h5>Sign up by</h5>
+        </div>
         <div class="col-md-10 col-md-offset-1">
-            <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>">
-                <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>" class="btn btn-block btn-facebook-inversed rounded">
-                    <i class="fa fa-facebook"></i>
-                    Facebook
-                </a>
+            <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>" class="btn btn-block btn-facebook-inversed rounded">
+                <i class="fa fa-facebook"></i>
+                Facebook
+            </a>
+            <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'twitter'])?>" class="btn btn-block btn-twitter-inversed rounded">
+                <i class="fa fa-twitter"></i>
+                Twitter
+            </a>
+            <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'google'])?>" class="btn btn-block btn-googleplus-inversed rounded">
+                <i class="fa fa-google-plus"></i>
+                Google +
             </a>
         </div>
     </div>

@@ -63,9 +63,11 @@ class SiteController extends BaseController
             ->all();
 
         $ratings = Movie::getTopNRatings(5);
+        $populars = Movie::getTopNPopulars(5);
         return $this->render('index', [
             'comings' => $comings,
             'ratings' => $ratings,
+            'populars' => $populars,
             'movies' => $movies,
             'pages' => $pages
         ]);
@@ -155,6 +157,7 @@ class SiteController extends BaseController
 
     public function actionRender()
     {
+        $this->required();
         if(Yii::$app->request->isAjax)
         {
             $movies = null;

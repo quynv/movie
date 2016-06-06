@@ -21,7 +21,6 @@ class BaseController extends Controller
     {
        $this->genres = Genre::find()->all();
        $this->layout = "@app/views/layouts/base";
-       $this->required();
     }
 
     public function required()

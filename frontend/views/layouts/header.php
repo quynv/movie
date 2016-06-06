@@ -82,7 +82,7 @@ use yii\helpers\Url;
                                                 <div>
                                                     <ul class="list-unstyled">
                                                         <?php foreach($this->context->genres as $genre) {?>
-                                                        <li class="col-md-3 col-sm-6 col-xs-6"><a href="/genres/<?= $genre->id.'-'.strtolower(urlencode($genre->name))?>"><i class="fa fa-bookmark-o"></i><?= $genre->name?></a></li>
+                                                        <li class="col-md-3 col-sm-6 col-xs-6"><a href="/genres/<?= $genre->id.'-'.strtolower(urlencode($genre->name))?>"><i class="fa fa-tags"></i><?= $genre->name?></a></li>
                                                         <?php } ?>
                                                     </ul>
                                                 </div>

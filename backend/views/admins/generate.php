@@ -12,7 +12,7 @@ $this->title = 'Admin | Generate password';
 
 <div class="register-page">
     <div class="form">
-        <h1>Register admin</h1>
+        <h1>Generate new password for admin</h1>
         <?php $form = ActiveForm::begin(['class' => 'login-form']); ?>
         <?= $form->field($model, 'email',[
             'template' => '

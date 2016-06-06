@@ -9,7 +9,7 @@ use yii\helpers\Url;
         <h3><a href="<?= Url::to(['/movies/coming_soon/', 'tmdb_id' => $movie->getTmdb_id()])?>"><?= $movie->getTitle();?></a></h3>
         <ul class="list-inline grid-boxes-news">
             <li><i class="fa fa-clock-o"></i> &nbsp;<?= $movie->getReleaseDate();?></li>
-            <li>|</li>
+
         </ul>
     </div>
 </div>

@@ -70,6 +70,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <a href="<?= Url::toRoute(['auth/forgot_password'])?>">Forgot password?</a>
     <hr>
     <div class="row">
+        <div class="heading heading-v1">
+            <h5>Sign in by</h5>
+        </div>
         <div class="col-md-10 col-md-offset-1">
             <a href="<?= Url::toRoute(['auth/auth', 'authclient' => 'facebook'])?>" class="btn btn-block btn-facebook-inversed rounded">
                 <i class="fa fa-facebook"></i>
