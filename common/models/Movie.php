@@ -207,23 +207,30 @@ class Movie extends ActiveRecord
     {
         $others = Rating::find()->select('user_id')->distinct()->all();
         $user_rated = ArrayHelper::map(Rating::find()->select(['movie_id', 'rating'])->where(['user_id' => $user->id])->asArray()->all(), 'movie_id', 'rating');
+//        $user_aver = Rating::find()->select(['movie_id', 'rating'])->where(['user_id' => $user->id])->average('rating');
         $totals = array();
         $simSums = array();
+        $neighbors = array();
         foreach($others as $other)
         {
             if($user->id == $other->user_id) continue;
 
             $other_rated = ArrayHelper::map(Rating::find()->select(['movie_id', 'rating'])->where(['user_id' => $other->user_id])->asArray()->all(), 'movie_id', 'rating');
-
-            $sim = Rating::similarity($user_rated, $other_rated);
-
+            $neighbors[$other->user_id] = Rating::similarity($user_rated, $other_rated);
+        }
+        arsort($neighbors);
+        foreach($neighbors as $other => $sim)
+        {
             if($sim <= 0) continue;
+            $other_rated = ArrayHelper::map(Rating::find()->select(['movie_id', 'rating'])->where(['user_id' => $other])->asArray()->all(), 'movie_id', 'rating');
+//            $other_aver = Rating::find()->select(['movie_id', 'rating'])->where(['user_id' => $other])->average('rating');
             foreach($other_rated as $key => $value)
             {
                 if(!isset($user_rated[$key]) || $user_rated[$key] == 0)
                 {
                     if(isset($totals[$key]))
                         $totals[$key] += $value * $sim;
+//                        $totals[$key] += ($value - $other_aver) * $sim;
                     else $totals[$key] = $value * $sim;
 
                     if(isset($simSums[$key]))
@@ -236,6 +243,7 @@ class Movie extends ActiveRecord
         foreach($totals as $item => $total)
         {
             $rankings[$item] = $total/$simSums[$item];
+//            $rankings[$item] = $user_aver + $total/$simSums[$item];
         }
 
         arsort($rankings);

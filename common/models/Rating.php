@@ -80,7 +80,7 @@ class Rating extends ActiveRecord
             }
         }
         if($ur == 0 || $or == 0) {$sim = 0;}
-        else $sim /= $ur*$or;
+        else $sim /= sqrt($ur)*sqrt($or);
 
         return $sim;
     }

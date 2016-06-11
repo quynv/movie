@@ -58,7 +58,7 @@ $this->title = 'Movie | Contributions';
             <div class="form-group">
                 <?= Html::submitButton('Submit', ['class' => 'btn btn-primary rounded', 'name' => 'contribution-button']) ?>
             </div>
-
+            <p>TMDB ID is primary key of movie in The Movie Database System.</p>
             <?php ActiveForm::end(); ?>
         </div>
     </div>
