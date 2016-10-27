@@ -1,37 +1,47 @@
 <?php
 namespace common\models;
 
+use frontend\models\Follow;
+use frontend\models\Friend;
+use frontend\models\Notification;
 use Yii;
 use yii\base\NotSupportedException;
+use \yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use frontend\models\Provider;
+use yii\helpers\Url;
 
 /**
  * User model
  *
  * @property integer $id
  * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
+ * @property string $password
+ * @property integer $avatar
+ * @property string $access_token
  * @property string $email
  * @property string $auth_key
+ * @property integer $expire_date
+ * @property integer $last_login
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
- * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
-
+    const STATUS_NOT_ACTIVE = 10;
+    const STATUS_ACTIVE = 100;
+    const NONE_AVATAR = 0;
+    const GRAVATAR = -1;
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%user}}';
+        return '{{%users}}';
     }
 
     /**
@@ -50,9 +60,18 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
+    }
+
+    public function beforeSave($insert) {
+        if ($this->isNewRecord) {
+            $this->created_at = new Expression('NOW()');
+        } else
+            $this->updated_at = new Expression('NOW()');
+
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -83,37 +102,45 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds user by password reset token
+     * Finds user by email
      *
-     * @param string $token password reset token
+     * @param string $email
      * @return static|null
      */
-    public static function findByPasswordResetToken($token)
-    {
-        if (!static::isPasswordResetTokenValid($token)) {
-            return null;
-        }
 
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
+     * Finds user by access token
+     *
+     * @param string $token access token
+     * @return static|null
+     */
+    public static function findByAccessToken($token)
+    {
         return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'access_token' => $token
         ]);
     }
 
     /**
-     * Finds out if password reset token is valid
+     * Finds out if access token is valid
      *
-     * @param string $token password reset token
+     * @param string $token access token
      * @return boolean
      */
-    public static function isPasswordResetTokenValid($token)
+    public static function isAccessTokenValid($token)
     {
         if (empty($token)) {
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        $user = static::findByAccessToken($token);
+        $timestamp = $user->expire_date;
+        $expire = Yii::$app->params['user.tokenExpire'];
         return $timestamp + $expire >= time();
     }
 
@@ -149,7 +176,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 
     /**
@@ -159,7 +186,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $this->password = Yii::$app->security->generatePasswordHash($password);
     }
 
     /**
@@ -171,18 +198,79 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Generates new password reset token
+     * Removes access token
      */
-    public function generatePasswordResetToken()
+    public function removeAccessToken()
     {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+        $this->access_token = null;
     }
 
     /**
-     * Removes password reset token
+     * Generates new password reset token
      */
-    public function removePasswordResetToken()
+
+    public function generateAccessToken()
     {
-        $this->password_reset_token = null;
+        $this->access_token = Yii::$app->security->generateRandomString();
+        $this->expire_date = time();
+    }
+
+    public function getAvatar($size = 53)
+    {
+        if($this->avatar == self::NONE_AVATAR) {
+            return Url::toRoute('@web/img/default_avatar.png');
+        } else if($this->avatar == self::GRAVATAR) {
+            return Yii::$app->avatar->getAvatar('gravatar', md5($this->email), $size);
+        } else {
+            $provider = Provider::findOne(['id' => $this->avatar]);
+            return Yii::$app->avatar->getAvatar(strtolower($provider->provider), $provider->provider_id, $size);
+        }
+    }
+
+    public function getProviders()
+    {
+        return $this->hasMany(Provider::className(), ['user_id' => 'id']);
+    }
+
+    public function getRatings()
+    {
+        return $this->hasMany(Rating::className(), ['user_id' => 'id']);
+    }
+
+    public static function getRated($movie_id)
+    {
+        $rating = Rating::find()->where(['user_id' => Yii::$app->user->id, 'movie_id' => $movie_id])->one();
+        if($rating) return $rating->rating;
+        return 0;
+    }
+
+    public function getFavourites()
+    {
+        return $this->hasMany(Movie::className(), ['id' => 'movie_id'])
+                    ->viaTable('favourites', ['user_id' => 'id']);
+    }
+
+    public function getFollowers()
+    {
+        return $this->hasMany(User::className(), ['id' => 'user_id'])
+            ->viaTable('follows', ['followed' => 'id']);
+    }
+
+    public function getFollowing()
+    {
+        return $this->hasMany(User::className(), ['id' => 'followed'])
+            ->viaTable('follows', ['user_id' => 'id']);
+    }
+
+    public function getIs_following()
+    {
+        $follow = Follow::findOne(['user_id' => Yii::$app->user->id, 'followed' => $this->id]);
+        if($follow) return true;
+        return false;
+    }
+
+    public function getNotifications()
+    {
+        return $this->hasMany(Notification::className(), ['user_id' => 'id']);
     }
 }
