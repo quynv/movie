@@ -1,0 +1,267 @@
+/* Add here all your css styles (customizations) */
+iframe{
+    border: none;
+}
+/*Tab v6
+------------------------------------*/
+.tab-v6 .nav-tabs {
+    border-bottom-color: #dedede;
+}
+
+.tab-v6 .nav-tabs > li {
+    margin-right: 30px;
+}
+
+.tab-v6 .nav-tabs > li > a {
+    border: none;
+    color: #687074;
+    padding: 6px 0;
+    font-size: 18px;
+    margin-right: 0;
+    background: none;
+    /*text-transform: uppercase;*/
+    border-bottom: solid 1px transparent;
+}
+
+.tab-v6 .nav-tabs > li.active > a,
+.tab-v6 .nav-tabs > li.active > a:hover,
+.tab-v6 .nav-tabs > li.active > a:focus {
+    color: #18ba9b;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #18ba9b;
+}
+
+.tab-v6 .nav-tabs > li > a:hover {
+    border-bottom: 1px solid #18ba9b;
+}
+
+.tab-v6 .nav-tabs > li > a:focus {
+    border: none;
+}
+
+.tab-v6 .tab-content {
+    padding: 30px 0;
+}
+
+.btn-favourite, .btn-send {
+    cursor: pointer;
+}
+
+.btn-send:hover {
+    color: #18ba9b;
+    border: solid 1px #18ba9b;
+}
+
+.fb-send, .fb-share-button, .fb-like {
+    float: left;
+    padding-right: 20px;
+}
+
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+/****** Style Star Rating Widget *****/
+
+.rating {
+    border: none;
+    float: left;
+}
+
+.rating > input { display: none; }
+.rating > label:before {
+    margin: 5px;
+    font-size: 2.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+}
+
+.rating > .half:before {
+    content: "\f089";
+    position: absolute;
+}
+
+.rating > label {
+    color: #ddd;
+    float: right;
+    cursor: pointer;
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
+
+.rating-label {
+    float: left;
+    padding-top: 25px;
+    padding-left: 15px;
+}
+
+.loader {
+    margin: 60px auto;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+    border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+    border-left: 1.1em solid #848484;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: load8 1.1s infinite linear;
+    animation: load8 1.1s infinite linear;
+}
+.loader,
+.loader:after {
+    border-radius: 50%;
+    width: 10em;
+    height: 10em;
+}
+@-webkit-keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+
+
+#grid-container{
+    background-image: url('../img/bg-movie.png');
+    background-repeat: repeat-x;
+    background-size: contain;
+    padding: 40px 10px 40px 10px;
+}
+
+
+
+.modal-rating {
+    width: 98%;
+}
+
+.modal-rating .modal-body{
+    background: #ECECEC;
+    min-height: calc(100vh - 212px);
+    overflow-y: auto;
+}
+
+.modal-rating .rating {
+    font-size: 10px;
+}
+
+.modal-rating #rating-container {
+    padding: 0 10px 0 10px;
+    position: relative;
+}
+
+.white-tooltip + .tooltip > .tooltip-inner {background-color: #fff; color: teal;}
+.white-tooltip + .tooltip.right .tooltip-arrow {
+    border-right-color: #fff;
+}
+
+.mega-menu-content li a{
+    border-top: none!important;
+}
+
+@-webkit-keyframes follow-animation {
+    from {background: white; color: #3399FF; width: 85px; left: 50px;}
+    to {background: #2EB82E; border-color: #2EB82E; color: #ffffff; width: 120px; left: 35px;}
+}
+@-webkit-keyframes unfollow-animation {
+    from {background: #2EB82E; color: #ffffff; width: 120px; left: 35px;}
+    to {background: white; border-color: #3399FF; color: #3399FF; width: 85px; left: 50px;}
+}
+
+/* Standard syntax */
+@keyframes follow-animation {
+    from {background: white; color: #3399FF; width: 85px; left: 50px;}
+    to {background: #2EB82E; border-color: #2EB82E; color: #ffffff; width: 120px; left: 35px;}
+}
+@keyframes unfollow-animation {
+    from {background: #2EB82E; color: #ffffff; width: 120px; left: 35px;}
+    to {background: white; border-color: #3399FF; color: #3399FF; width: 85px; left: 50px;}
+}
+
+input.follow-btn {
+    -webkit-appearance: none;
+}
+
+.follow-btn:after {
+    color: #3399FF;
+    font-family: "Helvetica";
+    font-size: 10pt;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #3399FF;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    padding: 5px 15px;
+
+
+    content: '+ Follow';
+    -webkit-animation: unfollow-animation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-animation-fill-mode:forwards;
+    animation: unfollow-animation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation-fill-mode:forwards;
+}
+
+.follow-btn:checked:after {
+    content: 'Following';
+    -webkit-animation: follow-animation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-animation-fill-mode:forwards;
+    animation: follow-animation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation-fill-mode:forwards;
+}
+
+#requestModal .modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}
+#requestModal .list-user label{
+    float: left;
+}
+#requestModal .list-user input{
+    margin-top: 15px;
+    float: right;
+}
+
+.space-color {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: #18ba9b;
+}
+
+.btn-filter {
+    background-color: #18ba9b;
+    border-color: #18ba97;
+    color: #fff;
+}
+
+.star-color {
+    color: #FFD700;
+}
