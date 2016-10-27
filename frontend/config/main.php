@@ -13,8 +13,9 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'frontend\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['auth/login']
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -27,6 +28,17 @@ return [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'showScriptName' => false,
+            'enablePrettyUrl' => true,
+            'baseUrl' => '/',
+            'rules' => array(
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+            ),
         ],
     ],
     'params' => $params,
